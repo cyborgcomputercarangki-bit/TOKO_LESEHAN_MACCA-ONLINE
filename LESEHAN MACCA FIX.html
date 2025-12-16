@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesehan Macca - Menu Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c90000; /* Merah Marun yang sedikit lebih cerah */
+            --primary-dark: #7b0f0f;
+            --bg: #f7f7f7; /* Background lebih terang */
+            --card: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+            background: var(--bg);
+            color: var(--text-dark);
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: var(--primary);
+            color: #fff;
+            padding: 18px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: var(--shadow-md);
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        /* CATEGORY CARD */
+        .category {
+            background: var(--card);
+            border-radius: 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        .category:hover {
+            transform: translateY(-2px);
+        }
+
+        .category-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+            user-select: none;
+        }
+        .category-header span:last-child {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+        .category-header.active span:last-child {
+            transform: rotate(180deg);
+        }
+        
+        .category-content {
+            padding: 0 16px 10px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        }
+        .category-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .menu-item {
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .menu-item span {
+            font-weight: 400;
+            color: var(--text-dark);
+        }
+        .menu-item button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-item button:active {
+            background: var(--primary-dark);
+            transform: scale(0.98);
+        }
+
+        /* CART BAR */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 15;
+        }
+        .cart-bar div {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .cart-bar button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .cart-bar button:active {
+            background: var(--primary-dark);
+            transform: scale(0.98);
+        }
+
+        /* POPUP (Review Order) */
+        .popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none; /* Default hidden */
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+        .popup.active {
+            display: flex;
+        }
+        .popup-content {
+            background: #fff;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .popup h3 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 22px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .popup label {
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
+            color: var(--text-dark);
+        }
+        .popup input, .popup select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin: 8px 0 15px 0;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .popup button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-wa {
+            background: #25D366; /* Hijau WhatsApp */
+            color: #fff;
+        }
+        .btn-wa:hover {
+            background: #1e9e4f;
+        }
+        .btn-close {
+            background: #e0e0e0;
+            color: var(--text-dark);
+        }
+        .btn-close:hover {
+            background: #cccccc;
+        }
+
+        #ongkirBox {
+            padding: 10px;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            color: #856404;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        #cartList {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fafafa;
+        }
+        #cartList li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        #cartList li:last-child {
+            border-bottom: none;
+        }
+        .remove-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            width: auto !important;
+            margin: 0;
+        }
+        .remove-btn:hover {
+            background: #cc0000;
+        }
+
+        /* NOTIFIKASI TAMBAH ITEM (OK) */
+        #notification {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-weight: 600;
+        }
+        #notification.show {
+            opacity: 1;
+        }
+
+        /* MODERN ALERT MODAL */
+        #modernAlert {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #modernAlert.visible {
+            display: flex;
+            opacity: 1;
+        }
+        #alertContent {
+            background: #fff;
+            padding: 30px;
+            width: 80%;
+            max-width: 350px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        #modernAlert.visible #alertContent {
+             transform: scale(1);
+        }
+        #alertContent h4 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 20px;
+        }
+        #alertContent p {
+            color: var(--text-dark);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        #alertContent button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #alertContent button:hover {
+            background: var(--primary-dark);
+        }
+
+    </style>
+</head>
+<body>
+<header>LESEHAN MACCA</header>
+<div class="container">
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🍗 Menu Ayam</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Ayam Bakar Macca</span><button onclick="addItem('Ayam Bakar Macca',14000)">+14K</button></div>
+      <div class="menu-item"><span>Ayam Goreng Macca</span><button onclick="addItem('Ayam Goreng Macca',14000)">+14K</button></div>
+      <div class="menu-item"><span>Ayam Goreng Tepung</span><button onclick="addItem('Ayam Goreng Tepung',16000)">+16K</button></div>
+      <div class="menu-item"><span>Ayam Saos Mentega</span><button onclick="addItem('Ayam Saos Mentega',17000)">+17K</button></div>
+      <div class="menu-item"><span>Hati & Ampela</span><button onclick="addItem('Hati & Ampela',7000)">+7K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🐟 Menu Ikan</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Bandeng Bakar</span><button onclick="addItem('Bandeng Bakar',13000)">+13K</button></div>
+      <div class="menu-item"><span>Bandeng Goreng</span><button onclick="addItem('Bandeng Goreng',13000)">+13K</button></div>
+      <div class="menu-item"><span>Pallumara Bandeng</span><button onclick="addItem('Pallumara Bandeng',20000)">+20K</button></div>
+      <div class="menu-item"><span>Layang Bakar</span><button onclick="addItem('Layang Bakar',15000)">+15K</button></div>
+      <div class="menu-item"><span>Layang Goreng</span><button onclick="addItem('Layang Goreng',15000)">+15K</button></div>
+      <div class="menu-item"><span>Kakap / Katamba</span><button onclick="addItem('Kakap / Katamba',30000)">+30K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🍤 Menu Udang</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Udang Bakar</span><button onclick="addItem('Udang Bakar',28000)">+28K</button></div>
+      <div class="menu-item"><span>Udang Goreng Tepung</span><button onclick="addItem('Udang Goreng Tepung',30000)">+30K</button></div>
+      <div class="menu-item"><span>Udang Saos Asam Manis</span><button onclick="addItem('Udang Saos Asam Manis',30000)">+30K</button></div>
+      <div class="menu-item"><span>Udang Saos Pedas</span><button onclick="addItem('Udang Saos Pedas',30000)">+30K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🍜 Menu Mie</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Mie Goreng Biasa</span><button onclick="addItem('Mie Goreng Biasa',15000)">+15K</button></div>
+      <div class="menu-item"><span>Mie Goreng Jakarta</span><button onclick="addItem('Mie Goreng Jakarta',18000)">+18K</button></div>
+      <div class="menu-item"><span>Mie Goreng Seafood</span><button onclick="addItem('Mie Goreng Seafood',23000)">+23K</button></div>
+      <div class="menu-item"><span>Mie Kering Ayam</span><button onclick="addItem('Mie Kering Ayam',23000)">+23K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🍚 Menu Nasi</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Nasi Putih</span><button onclick="addItem('Nasi Putih',5000)">+5K</button></div>
+      <div class="menu-item"><span>Nasi Goreng Biasa</span><button onclick="addItem('Nasi Goreng Biasa',15000)">+15K</button></div>
+      <div class="menu-item"><span>Nasi Goreng Jakarta</span><button onclick="addItem('Nasi Goreng Jakarta',18000)">+18K</button></div>
+      <div class="menu-item"><span>Nasi Goreng Seafood</span><button onclick="addItem('Nasi Goreng Seafood',23000)">+23K</button></div>
+      <div class="menu-item"><span>Nasi Goreng Special</span><button onclick="addItem('Nasi Goreng Special',25000)">+25K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🥬 Menu Sayur</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Sayur Sup</span><button onclick="addItem('Sayur Sup',7000)">+7K</button></div>
+      <div class="menu-item"><span>Sayur Santan</span><button onclick="addItem('Sayur Santan',7000)">+7K</button></div>
+      <div class="menu-item"><span>Kangkung Cah</span><button onclick="addItem('Kangkung Cah',8000)">+8K</button></div>
+      <div class="menu-item"><span>Sawi Cah</span><button onclick="addItem('Sawi Cah',8000)">+8K</button></div>
+      <div class="menu-item"><span>Paria Cah</span><button onclick="addItem('Paria Cah',8000)">+8K</button></div>
+      <div class="menu-item"><span>Terong Goreng</span><button onclick="addItem('Terong Goreng',8000)">+8K</button></div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-header" onclick="toggle(this)"><span>🍽️ Tahu & Tempe</span><span>▼</span></div>
+    <div class="category-content">
+      <div class="menu-item"><span>Tahu / Tempe Goreng</span><button onclick="addItem('Tahu / Tempe Goreng',7000)">+7K</button></div>
+      <div class="menu-item"><span>Tahu / Tempe Tepung</span><button onclick="addItem('Tahu / Tempe Tepung',8000)">+8K</button></div>
+    </div>
+  </div>
+
+</div>
+<div class="cart-bar">
+  <div>Total: Rp <span id="total">0</span></div>
+  <button onclick="openPopup()">Pesan Sekarang</button>
+</div>
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>Review Pesanan</h3>
+    <label for="nama">Nama Pemesan</label>
+    <input id="nama" placeholder="Masukkan nama Anda" />
+
+    <label for="bayar">Metode Bayar</label>
+    <select id="bayar" onchange="updateBayar()">
+      <option value="COD">COD (Bayar di Tempat)</option>
+      <option value="Transfer">Transfer</option>
+    </select>
+
+    <div id="ongkirBox" style="display:flex;"><span>Biaya Kirim (Ongkir)</span><span id="ongkir">Rp 5.000</span></div>
+    
+    <label style="margin-top: 15px;">Detail Pesanan:</label>
+    <ul id="cartList"></ul>
+    
+    <p style="font-size: 18px; text-align: right; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px;">
+      <strong>Total Akhir: <span style="color: var(--primary);">Rp <span id="popupTotal">0</span></span></strong>
+    </p>
+    <button class="btn-wa" onclick="sendWA()">ORDER SEKARANG</button> 
+        <button class="btn-close" onclick="closePopup()">Batal</button>
+  </div>
+</div>
+<div id="notification">Menu ditambahkan! (OK)</div>
+
+<div id="modernAlert">
+    <div id="alertContent">
+        <h4 id="alertTitle">Peringatan</h4>
+        <p id="alertMessage">Ini adalah pesan peringatan.</p>
+        <button onclick="hideModernAlert()">Tutup</button>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let total = 0;
+    const ongkir = 5000;
+    const phoneNumber = '6281234567890';
+    let notificationTimeout;
+
+    const emojiMap = {
+        'Ayam': '🍗',
+        'Hati & Ampela': '🐔',
+        'Bandeng': '🐟',
+        'Pallumara Bandeng': '🍲',
+        'Layang': '🐠',
+        'Kakap / Katamba': '🦈',
+        'Udang': '🍤',
+        'Mie': '🍜',
+        'Nasi Putih': '🍚',
+        'Nasi Goreng': '🍚',
+        'Sayur': '🥬',
+        'Kangkung Cah': '🥦',
+        'Sawi Cah': '🥦',
+        'Paria Cah': '🌶️',
+        'Terong Goreng': '🍆',
+        'Tahu / Tempe': '🍽️',
+        'Default': '✔️'
+    };
+
+    function getEmoji(itemName) {
+        for (const key in emojiMap) {
+            if (itemName.includes(key)) {
+                return emojiMap[key];
+            }
+        }
+        return emojiMap['Default'];
+    }
+
+    function formatRupiah(number) {
+        return number.toLocaleString('id-ID', { minimumFractionDigits: 0 });
+    }
+
+    function showNotification() {
+        const notif = document.getElementById('notification');
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+        }
+
+        notif.classList.add('show');
+
+        notificationTimeout = setTimeout(() => {
+            notif.classList.remove('show');
+        }, 1500);
+    }
+    
+    function showModernAlert(title, message, callback) {
+        document.getElementById('alertTitle').innerText = title;
+        document.getElementById('alertMessage').innerText = message;
+        const alertModal = document.getElementById('modernAlert');
+        const closeButton = alertModal.querySelector('button');
+
+        alertModal.classList.add('visible');
+        
+        closeButton.onclick = () => {
+            hideModernAlert();
+            if (callback) {
+                callback();
+            }
+        };
+    }
+
+    function hideModernAlert() {
+        document.getElementById('modernAlert').classList.remove('visible');
+    }
+
+
+    function renderCart() {
+        const cartListEl = document.getElementById('cartList');
+        cartListEl.innerHTML = '';
+        total = 0;
+
+        if (cart.length === 0) {
+            cartListEl.innerHTML = '<li>Belum ada menu di keranjang.</li>';
+            document.getElementById('total').innerText = formatRupiah(0);
+            hitungTotal();
+            return;
+        }
+
+        const itemMap = {};
+        cart.forEach((item) => {
+            const key = `${item.name}-${item.price}`;
+            if (itemMap[key]) {
+                itemMap[key].qty += 1;
+            } else {
+                itemMap[key] = { ...item, qty: 1 };
+            }
+            total += item.price;
+        });
+
+        Object.values(itemMap).forEach((item) => {
+            const li = document.createElement('li');
+            const itemTotal = item.qty * item.price;
+            li.innerHTML = `
+                <span>${item.qty}x ${item.name}</span>
+                <div>Rp ${formatRupiah(itemTotal)} <button class="remove-btn" onclick="removeItem('${item.name}', ${item.price})">Hapus 1</button></div>
+            `;
+            cartListEl.appendChild(li);
+        });
+
+        document.getElementById('total').innerText = formatRupiah(total);
+        hitungTotal();
+    }
+
+    function addItem(name, price) {
+        cart.push({ name, price });
+        renderCart();
+        showNotification();
+    }
+
+    function removeItem(name, price) {
+        const index = cart.findIndex(item => item.name === name && item.price === price);
+        if (index > -1) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+    }
+
+    function hitungTotal() {
+        const metode = document.getElementById('bayar')?.value || 'COD';
+        let finalTotal = total;
+        
+        if (metode === 'COD') {
+            finalTotal += ongkir;
+        }
+
+        document.getElementById('popupTotal').innerText = formatRupiah(finalTotal);
+    }
+
+    function updateBayar() {
+        const metode = document.getElementById('bayar').value;
+        document.getElementById('ongkirBox').style.display = metode === 'COD' ? 'flex' : 'none';
+        hitungTotal();
+    }
+    
+    function openPopup() {
+        if (cart.length === 0) {
+            showModernAlert('Keranjang Kosong 🛒', 'Anda belum menambahkan menu. Silakan pilih menu terlebih dahulu.');
+            return;
+        }
+        renderCart(); 
+        updateBayar(); 
+        document.getElementById('popup').classList.add('active');
+    }
+
+    // ** PERBAIKAN: Memastikan modal ditutup dengan menghapus class 'active' **
+    function closePopup() {
+        document.getElementById('popup').classList.remove('active');
+    }
+
+    function toggle(el) {
+        const content = el.nextElementSibling;
+        
+        document.querySelectorAll('.category-content.active').forEach(item => {
+            if (item !== content) {
+                item.classList.remove('active');
+                item.previousElementSibling.classList.remove('active');
+                item.previousElementSibling.querySelector('span:last-child').textContent = '▼';
+            }
+        });
+
+        if (content.classList.contains('active')) {
+            content.classList.remove('active');
+            el.classList.remove('active');
+            el.querySelector('span:last-child').textContent = '▼';
+        } else {
+            content.classList.add('active');
+            el.classList.add('active');
+            el.querySelector('span:last-child').textContent = '▲';
+        }
+    }
+    
+    function sendWA() {
+        const namaInput = document.getElementById('nama');
+        const nama = namaInput.value.trim();
+        const metode = document.getElementById('bayar').value;
+        let finalTotal = total;
+        
+        if (!nama) {
+            showModernAlert(
+                '❌ Nama Belum Diisi', 
+                'Mohon masukkan Nama Pemesan pada kolom di atas sebelum melanjutkan order.',
+                () => { namaInput.focus(); }
+            );
+            return;
+        }
+
+        if (metode === 'COD') finalTotal += ongkir;
+        
+        const itemMap = {};
+        cart.forEach(item => {
+            const key = item.name; 
+            if (itemMap[key]) {
+                 itemMap[key].qty += 1;
+            } else {
+                 itemMap[key] = { ...item, qty: 1 };
+            }
+        });
+
+        let text = `*-- 🧾 PESANAN LESEHAN MACCA 🧾 --*%0A%0A`;
+        text += `*Nama Pemesan:* ${nama}%0A`;
+        text += `*Metode Bayar:* ${metode}%0A`;
+        text += `-----------------------------------%0A`;
+        text += `*DETAIL PESANAN (${Object.keys(itemMap).length} Item Unik)*:%0A`;
+
+        Object.values(itemMap).forEach(item => {
+            const emoji = getEmoji(item.name);
+            const subtotal = item.qty * item.price;
+            text += `${emoji} ${item.qty}x ${item.name} (Rp ${formatRupiah(subtotal)})%0A`;
+        });
+        
+        text += `%0A-----------------------------------%0A`;
+        text += `*💰 RINGKASAN BIAYA 💰*%0A`;
+        text += `Subtotal Menu: Rp ${formatRupiah(total)}%0A`;
+        if (metode === 'COD') text += `Ongkir: Rp ${formatRupiah(ongkir)}%0A`;
+        text += `*TOTAL AKHIR:* Rp ${formatRupiah(finalTotal)}%0A%0A`;
+        text += `_Terima kasih! Mohon konfirmasi ketersediaan dan detail pengiriman._`;
+
+        window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+</body>
+</html>
