@@ -209,10 +209,12 @@
             box-sizing: border-box;
             font-family: inherit;
         }
+        
+        /* Membuat tombol seragam, tombol Batal akan mewarisi ini */
         .popup button {
             width: 100%;
             margin-top: 15px;
-            padding: 14px;
+            padding: 14px; 
             border: none;
             border-radius: 12px;
             font-size: 16px;
@@ -232,12 +234,12 @@
         .btn-wa:hover {
             background: #1e9e4f;
         }
-        /* Perbaikan: Mengubah tombol close agar mudah ditekan */
+        
+        /* PERBAIKAN: Menyamakan responsifitas dengan tombol WA */
         .btn-close {
             background: #e0e0e0;
             color: var(--text-dark);
-            margin-top: 10px; /* Jarak dari tombol WA */
-            padding: 12px; /* Sedikit lebih kecil agar lebih proporsional */
+            margin-top: 10px; /* Sedikit lebih kecil agar lebih proporsional */
         }
         .btn-close:hover {
             background: #cccccc;
@@ -265,37 +267,37 @@
             padding: 10px;
             background: #fafafa;
         }
-        /* Perbaikan: Mengatur tampilan item menu */
+        
         #cartList li {
             padding: 8px 0;
             border-bottom: 1px dashed #eee;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Alignment ke atas jika teks panjang */
+            align-items: flex-start; 
             font-size: 14px;
-            flex-wrap: nowrap; /* Mencegah wrap pada item */
+            flex-wrap: nowrap; 
         }
         #cartList li span {
-            flex-grow: 1; /* Mengambil ruang sebanyak mungkin */
+            flex-grow: 1; 
             margin-right: 5px;
         }
         #cartList li div {
-            white-space: nowrap; /* Mencegah harga dan tombol hapus terpisah */
+            white-space: nowrap; 
         }
         #cartList li:last-child {
             border-bottom: none;
         }
-        /* Perbaikan: Ukuran tombol hapus lebih kecil */
+        
         .remove-btn {
             background: #ff4d4d;
             color: white;
             border: none;
-            padding: 2px 5px; /* Mengurangi padding */
-            border-radius: 4px; /* Mengurangi border radius */
-            font-size: 11px; /* Mengurangi ukuran font */
+            padding: 2px 5px; 
+            border-radius: 4px; 
+            font-size: 11px; 
             cursor: pointer;
             width: auto !important;
-            margin-left: 5px; /* Jarak dari harga */
+            margin-left: 5px; 
             transition: background 0.2s, transform 0.1s;
         }
         .remove-btn:hover {
@@ -657,12 +659,11 @@
         document.getElementById('popup').classList.remove('active');
     }
     
-    // FUNGSI BARU: Mengosongkan keranjang dan menutup popup setelah order
     function resetCartAndClosePopup() {
-        cart = []; // Mengosongkan array keranjang
-        document.getElementById('nama').value = ''; // Mengosongkan input nama
-        renderCart(); // Memperbarui tampilan keranjang (Total: Rp 0)
-        closePopup(); // Menutup popup
+        cart = []; 
+        document.getElementById('nama').value = ''; 
+        renderCart(); 
+        closePopup(); 
     }
 
     function toggle(el) {
@@ -733,11 +734,9 @@
         text += `*TOTAL AKHIR:* Rp ${formatRupiah(finalTotal)}%0A%0A`;
         text += `_Terima kasih! Mohon konfirmasi ketersediaan dan detail pengiriman._`;
 
-        // Membuka link WhatsApp di tab baru
         window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
         
-        // FUNGSI BARU: Reset keranjang setelah mengirim pesan
-        setTimeout(resetCartAndClosePopup, 500); // Tunda sebentar untuk memastikan pop-up WA terbuka
+        setTimeout(resetCartAndClosePopup, 500); 
     }
 
     document.addEventListener('DOMContentLoaded', () => {
