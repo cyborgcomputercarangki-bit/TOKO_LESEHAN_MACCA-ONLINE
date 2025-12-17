@@ -163,7 +163,7 @@
             align-items: center;
             justify-content: center;
             z-index: 20;
-            opacity: 0;
+            opacity: 0; 
             transition: opacity 0.3s ease; 
         }
         .popup.active {
@@ -232,9 +232,12 @@
         .btn-wa:hover {
             background: #1e9e4f;
         }
+        /* Perbaikan: Mengubah tombol close agar mudah ditekan */
         .btn-close {
             background: #e0e0e0;
             color: var(--text-dark);
+            margin-top: 10px; /* Jarak dari tombol WA */
+            padding: 12px; /* Sedikit lebih kecil agar lebih proporsional */
         }
         .btn-close:hover {
             background: #cccccc;
@@ -262,27 +265,37 @@
             padding: 10px;
             background: #fafafa;
         }
+        /* Perbaikan: Mengatur tampilan item menu */
         #cartList li {
             padding: 8px 0;
             border-bottom: 1px dashed #eee;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start; /* Alignment ke atas jika teks panjang */
             font-size: 14px;
+            flex-wrap: nowrap; /* Mencegah wrap pada item */
+        }
+        #cartList li span {
+            flex-grow: 1; /* Mengambil ruang sebanyak mungkin */
+            margin-right: 5px;
+        }
+        #cartList li div {
+            white-space: nowrap; /* Mencegah harga dan tombol hapus terpisah */
         }
         #cartList li:last-child {
             border-bottom: none;
         }
+        /* Perbaikan: Ukuran tombol hapus lebih kecil */
         .remove-btn {
             background: #ff4d4d;
             color: white;
             border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 2px 5px; /* Mengurangi padding */
+            border-radius: 4px; /* Mengurangi border radius */
+            font-size: 11px; /* Mengurangi ukuran font */
             cursor: pointer;
             width: auto !important;
-            margin: 0;
+            margin-left: 5px; /* Jarak dari harga */
             transition: background 0.2s, transform 0.1s;
         }
         .remove-btn:hover {
@@ -492,10 +505,7 @@
     let cart = [];
     let total = 0;
     const ongkir = 5000;
-    
-    // PERBAIKAN: Nomor WhatsApp di-update
-    const phoneNumber = '6285242522956'; // Nomor WA Anda tanpa tanda hubung dan dimulai dengan 62
-    
+    const phoneNumber = '6285242522956'; 
     let notificationTimeout;
 
     const emojiMap = {
@@ -646,6 +656,14 @@
     function closePopup() {
         document.getElementById('popup').classList.remove('active');
     }
+    
+    // FUNGSI BARU: Mengosongkan keranjang dan menutup popup setelah order
+    function resetCartAndClosePopup() {
+        cart = []; // Mengosongkan array keranjang
+        document.getElementById('nama').value = ''; // Mengosongkan input nama
+        renderCart(); // Memperbarui tampilan keranjang (Total: Rp 0)
+        closePopup(); // Menutup popup
+    }
 
     function toggle(el) {
         const content = el.nextElementSibling;
@@ -715,8 +733,11 @@
         text += `*TOTAL AKHIR:* Rp ${formatRupiah(finalTotal)}%0A%0A`;
         text += `_Terima kasih! Mohon konfirmasi ketersediaan dan detail pengiriman._`;
 
-        // Menggunakan nomor yang sudah diperbarui
+        // Membuka link WhatsApp di tab baru
         window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
+        
+        // FUNGSI BARU: Reset keranjang setelah mengirim pesan
+        setTimeout(resetCartAndClosePopup, 500); // Tunda sebentar untuk memastikan pop-up WA terbuka
     }
 
     document.addEventListener('DOMContentLoaded', () => {
