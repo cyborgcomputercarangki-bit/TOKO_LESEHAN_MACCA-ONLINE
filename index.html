@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Lesehan Macca - Official Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Engagement&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-red: #B20610; /* Merah khas Lesehan Macca */
-            --primary-grad: linear-gradient(135deg, #B20610 0%, #FF416C 100%);
-            --secondary-grad: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            --accent-grad: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
+            --primary-red: #8B1A1A; 
+            --primary-grad: linear-gradient(135deg, #8B1A1A 0%, #B20610 100%);
+            --brand-yellow: #f1c40f;
             --bg: #f8f9fa;
             --card: #ffffff;
             --text-dark: #2d3436;
             --text-light: #636e72;
             --radius: 20px;
+            --accent-grad: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
         }
 
         * { 
@@ -34,46 +34,50 @@
             touch-action: pan-y;
         }
 
-        /* HEADER DENGAN LOGO */
-        header { 
-            background: #fff; 
-            padding: 25px 20px; 
-            text-align: center; 
-            border-bottom: 1px solid #f1f1f1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        
-        .logo-container {
-            max-width: 200px;
-            margin: 0 auto 10px;
+        /* HEADER IDENTIK REFERENSI */
+        header {
+            background-color: var(--primary-red);
+            background-image: 
+                linear-gradient(rgba(139, 26, 26, 0.8), rgba(139, 26, 26, 0.8)),
+                url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_PcT_KT8CxOUK5xJCqiPIehvmKsQQ2__Yhg&s');
+            background-size: cover;
+            background-position: center;
+            padding: 50px 20px 80px;
+            text-align: center;
+            position: relative;
         }
 
-        .logo-img {
-            max-width: 100%;
-            height: auto;
-            display: block;
+        .header-content {
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        /* Fallback jika gambar logo tidak ada/error */
-        .brand-name {
-            font-family: 'Engagement', cursive;
-            font-size: 42px;
-            margin: 0;
-            line-height: 1;
-            background: var(--primary-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: normal;
+        .main-logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+            mix-blend-mode: lighten; 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
         }
 
-        header p { 
-            margin: 8px 0 0; 
-            font-size: 14px; 
-            color: var(--text-light); 
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            font-style: italic;
+        header p {
+            color: white;
+            font-size: 15px;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 6px;
+            background: var(--brand-yellow);
+            border-radius: 10px 10px 0 0;
         }
 
         /* TABS */
@@ -94,16 +98,10 @@
 
         .tab-link.active {
             background: var(--primary-red); color: white; border-color: transparent;
-            box-shadow: 0 8px 20px rgba(178, 6, 16, 0.3);
+            box-shadow: 0 8px 20px rgba(139, 26, 26, 0.3);
         }
 
-        /* HOVER EFFECTS */
-        @media (hover: hover) {
-            .tab-link:hover { transform: translateY(-2px); border-color: var(--primary-red); color: var(--primary-red); }
-            .menu-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
-            .add-btn:hover { transform: scale(1.1); filter: brightness(1.1); }
-        }
-
+        /* MENU GRID */
         #swipe-area { min-height: 50vh; width: 100%; }
         .container { max-width: 750px; margin: 0 auto; padding: 20px; }
         
@@ -132,7 +130,7 @@
         .add-btn {
             background: var(--primary-grad); color: white; border: none;
             width: 44px; height: 44px; border-radius: 14px; font-size: 24px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(178, 6, 16, 0.2);
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(139, 26, 26, 0.2);
         }
 
         /* CART BAR */
@@ -145,7 +143,7 @@
         .cart-bar.active { transform: translate(-50%, 0); }
         .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 14px 28px; border-radius: 16px; font-weight: 800; cursor: pointer; }
 
-        /* POPUP UI */
+        /* POPUP */
         .popup { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: none; z-index: 2000; align-items: flex-end; }
         .popup.active { display: flex; }
         .popup-content { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 35px 35px 0 0; padding: 30px; max-height: 90vh; overflow-y: auto; }
@@ -164,18 +162,16 @@
         .summary-line.total { margin-top: 15px; padding-top: 15px; border-top: 1px solid #ffcccc; font-weight: 800; font-size: 22px; color: #2d3436; }
 
         .btn-pesan { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 22px; border-radius: 20px; font-weight: 800; font-size: 18px; cursor: pointer; box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3); }
-
         @media (max-width: 600px) { .tabs-container { justify-content: flex-start; } }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">
-        <img src="images (1).jpg" alt="Lesehan Macca Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block';">
-        <h1 id="text-logo" class="brand-name" style="display:none;">Lesehan Macca</h1>
+    <div class="header-content">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_PcT_KT8CxOUK5xJCqiPIehvmKsQQ2__Yhg&s" alt="Lesehan Macca Logo" class="main-logo">
+        <p>Cita Rasa Khas, Lezatnya Sampai ke Hati</p>
     </div>
-    <p>Cita Rasa Khas, Lezatnya Sampai ke Hati</p>
 </header>
 
 <div class="tabs-container" id="tabBar">
@@ -188,7 +184,6 @@
 
 <div id="swipe-area">
     <div class="container">
-        
         <div id="ayam" class="menu-section active">
             <div class="section-title">Olahan Ayam</div>
             <div class="menu-grid">
@@ -198,45 +193,31 @@
                 <div class="menu-card"><div class="menu-info"><h4>Ayam Saos Mentega</h4><p>Rp 17.000</p></div><button class="add-btn" onclick="addItem('Ayam Saos Mentega', 17000)">+</button></div>
             </div>
         </div>
-
         <div id="ikan" class="menu-section">
             <div class="section-title">Olahan Ikan</div>
             <div class="menu-grid">
                 <div class="menu-card"><div class="menu-info"><h4>Bandeng Bakar</h4><p>Rp 13.000</p></div><button class="add-btn" onclick="addItem('Bandeng Bakar', 13000)">+</button></div>
                 <div class="menu-card"><div class="menu-info"><h4>Pallumara Bandeng</h4><p>Rp 20.000</p></div><button class="add-btn" onclick="addItem('Pallumara Bandeng', 20000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Layang Bakar/Goreng</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Layang Bakar/Goreng', 15000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Kakap / Katamba</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Kakap / Katamba', 30000)">+</button></div>
             </div>
         </div>
-
         <div id="udang" class="menu-section">
             <div class="section-title">Olahan Udang</div>
             <div class="menu-grid">
                 <div class="menu-card"><div class="menu-info"><h4>Udang Bakar</h4><p>Rp 28.000</p></div><button class="add-btn" onclick="addItem('Udang Bakar', 28000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Udang Goreng Tepung</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Udang Goreng Tepung', 30000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Udang Saos Asam Manis</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Udang Saos Asam Manis', 30000)">+</button></div>
             </div>
         </div>
-
         <div id="nasimie" class="menu-section">
             <div class="section-title">Nasi & Mie</div>
             <div class="menu-grid">
                 <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Biasa</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Biasa', 15000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Seafood</h4><p>Rp 23.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Seafood', 23000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Mie Goreng / Kering</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Mie Goreng / Kering', 15000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Nasi Putih</h4><p>Rp 5.000</p></div><button class="add-btn" onclick="addItem('Nasi Putih', 5000)">+</button></div>
             </div>
         </div>
-
         <div id="sayur" class="menu-section">
             <div class="section-title">Sayur & Lauk</div>
             <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Cah Kangkung / Sawi</h4><p>Rp 8.000</p></div><button class="add-btn" onclick="addItem('Cah Kangkung / Sawi', 8000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Sayur Sup / Santan</h4><p>Rp 7.000</p></div><button class="add-btn" onclick="addItem('Sayur Sup / Santan', 7000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Tahu / Tempe Goreng</h4><p>Rp 7.000</p></div><button class="add-btn" onclick="addItem('Tahu / Tempe Goreng', 7000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Cah Kangkung</h4><p>Rp 8.000</p></div><button class="add-btn" onclick="addItem('Cah Kangkung', 8000)">+</button></div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -254,8 +235,11 @@
         <h3 style="margin: 0 0 25px; font-weight: 800; font-size: 24px; color: #1a1a1a;">Review Pesanan</h3>
         
         <div class="input-group"><label>Nama Lengkap</label><input id="nama" type="text"></div>
-        <div class="input-group"><label>WhatsApp</label><input id="telp" type="tel"></div>
-        <div class="input-group"><label>Alamat Pengiriman</label><textarea id="alamat" rows="3"></textarea></div>
+        <div class="input-group"><label>Nomor WhatsApp</label><input id="telp" type="tel"></div>
+        <div class="input-group"><label>Alamat Pengiriman</label><textarea id="alamat" rows="2"></textarea></div>
+        
+        <div class="input-group"><label>Pesan Khusus</label><input id="pesan_khusus" type="text"></div>
+        
         <div class="input-group">
             <label>Metode Pembayaran</label>
             <select id="bayar" onchange="renderCart()">
@@ -297,7 +281,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Swipe Navigation
     let tsX = 0;
     document.getElementById('swipe-area').addEventListener('touchstart', e => tsX = e.touches[0].clientX);
     document.getElementById('swipe-area').addEventListener('touchend', e => {
@@ -352,15 +335,28 @@
         const alamat = document.getElementById('alamat').value;
         const telp = document.getElementById('telp').value;
         const meth = document.getElementById('bayar').value;
+        const pesanKhusus = document.getElementById('pesan_khusus').value;
+        
         if(!nama || !alamat || !telp) return alert("Harap isi data pengiriman dengan lengkap.");
         
         let sub = 0; const map = {};
         cart.forEach(i => { map[i.name] = map[i.name] || { ...i, qty: 0 }; map[i.name].qty++; sub += i.price; });
         const total = sub + (meth === 'COD' ? ongkirVal : 0);
 
-        let m = `*PESANAN BARU - LESEHAN MACCA*%0A%0A*Pelanggan:* ${nama}%0A*WhatsApp:* ${telp}%0A*Alamat:* ${alamat}%0A*Pembayaran:* ${meth}%0A%0A*Daftar Menu:*%0A`;
+        let m = `*PESANAN BARU - LESEHAN MACCA*%0A%0A`;
+        m += `👤 *Pelanggan:* ${nama}%0A`;
+        m += `📞 *WhatsApp:* ${telp}%0A`;
+        m += `📍 *Alamat:* ${alamat}%0A`;
+        m += `💳 *Pembayaran:* ${meth}%0A`;
+        
+        if(pesanKhusus.trim() !== "") {
+            m += `📝 *Pesan Khusus:* ${pesanKhusus}%0A`;
+        }
+        
+        m += `%0A*DAFTAR MENU:*%0A`;
         Object.values(map).forEach(i => m += `- ${i.name} (${i.qty}x)%0A`);
         m += `%0A*TOTAL AKHIR: Rp ${formatRupiah(total)}*`;
+        
         window.open(`https://wa.me/${adminWA}?text=${m}`, '_blank');
     }
 </script>
