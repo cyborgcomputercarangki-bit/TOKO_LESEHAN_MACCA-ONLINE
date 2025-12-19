@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Lesehan Macca - Menu Premium Universal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Lesehan Macca - Official Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Engagement&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-grad: linear-gradient(135deg, #FF4B2B 0%, #FF416C 100%);
+            --primary-red: #B20610; /* Merah khas Lesehan Macca */
+            --primary-grad: linear-gradient(135deg, #B20610 0%, #FF416C 100%);
             --secondary-grad: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             --accent-grad: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
             --bg: #f8f9fa;
@@ -15,8 +16,6 @@
             --text-dark: #2d3436;
             --text-light: #636e72;
             --radius: 20px;
-            --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
-            --shadow-hover: 0 15px 35px rgba(255, 65, 108, 0.2);
         }
 
         * { 
@@ -32,428 +31,337 @@
             color: var(--text-dark);
             padding-bottom: 140px;
             overflow-x: hidden;
+            touch-action: pan-y;
         }
 
-        /* HEADER */
-        header {
-            background: #fff;
-            padding: 30px 20px;
-            text-align: center;
+        /* HEADER DENGAN LOGO */
+        header { 
+            background: #fff; 
+            padding: 25px 20px; 
+            text-align: center; 
             border-bottom: 1px solid #f1f1f1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
-        header h1 { 
-            margin: 0; 
-            font-size: clamp(24px, 5vw, 32px); 
-            font-weight: 800; 
+        
+        .logo-container {
+            max-width: 200px;
+            margin: 0 auto 10px;
+        }
+
+        .logo-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Fallback jika gambar logo tidak ada/error */
+        .brand-name {
+            font-family: 'Engagement', cursive;
+            font-size: 42px;
+            margin: 0;
+            line-height: 1;
             background: var(--primary-grad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            font-weight: normal;
         }
 
-        /* TABS - Desktop Hover Ready */
+        header p { 
+            margin: 8px 0 0; 
+            font-size: 14px; 
+            color: var(--text-light); 
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+
+        /* TABS */
         .tabs-container {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(15px);
-            z-index: 100;
-            padding: 15px 0;
-            display: flex;
-            justify-content: center; /* Desktop Default */
-            gap: 12px;
-            overflow-x: auto;
-            padding-left: 20px;
-            padding-right: 20px;
-            border-bottom: 1px solid #f1f1f1;
-            scrollbar-width: none;
+            position: sticky; top: 0; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px); z-index: 100; padding: 15px 0;
+            display: flex; justify-content: center; gap: 12px;
+            overflow-x: auto; padding-left: 20px; padding-right: 20px;
+            border-bottom: 1px solid #f1f1f1; scrollbar-width: none;
         }
         .tabs-container::-webkit-scrollbar { display: none; }
         
         .tab-link {
-            white-space: nowrap;
-            padding: 12px 24px;
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-light);
-            cursor: pointer;
-        }
-
-        /* HOVER EFFECTS FOR DESKTOP */
-        @media (hover: hover) {
-            .tab-link:hover {
-                background: #fff1f1;
-                border-color: #ffccd5;
-                color: var(--primary);
-                transform: translateY(-2px);
-            }
-            .menu-card:hover {
-                transform: translateY(-5px) scale(1.02);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-                border-color: #ffccd5;
-            }
-            .add-btn:hover {
-                transform: rotate(90deg) scale(1.1);
-                filter: brightness(1.1);
-            }
-            .checkout-btn:hover, .btn-pesan:hover {
-                transform: scale(1.05);
-                filter: contrast(1.1);
-            }
+            white-space: nowrap; padding: 12px 24px; background: #fff;
+            border: 1.5px solid #eee; border-radius: 50px; font-size: 14px;
+            font-weight: 700; color: var(--text-light); cursor: pointer;
         }
 
         .tab-link.active {
-            background: var(--primary-grad);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.3);
+            background: var(--primary-red); color: white; border-color: transparent;
+            box-shadow: 0 8px 20px rgba(178, 6, 16, 0.3);
         }
 
-        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+        /* HOVER EFFECTS */
+        @media (hover: hover) {
+            .tab-link:hover { transform: translateY(-2px); border-color: var(--primary-red); color: var(--primary-red); }
+            .menu-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+            .add-btn:hover { transform: scale(1.1); filter: brightness(1.1); }
+        }
+
+        #swipe-area { min-height: 50vh; width: 100%; }
+        .container { max-width: 750px; margin: 0 auto; padding: 20px; }
         
         .menu-section { display: none; }
-        .menu-section.active { display: block; animation: slideIn 0.5s ease-out; }
+        .menu-section.active { display: block; animation: fadeIn 0.4s ease-out; }
 
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { 
+            font-size: 22px; font-weight: 800; margin: 10px 0 25px; 
+            display: flex; align-items: center; gap: 12px;
+            color: var(--primary-red);
         }
-
-        .section-title { font-size: 20px; font-weight: 800; margin: 15px 0 25px; display: flex; align-items: center; gap: 12px; }
-
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
         
         .menu-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid #f0f0f0;
-            cursor: default;
+            background: var(--card); border-radius: var(--radius); padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02); border: 1px solid #f3f3f3;
         }
 
-        .menu-info h4 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
-        .menu-info p { margin: 0; font-size: 15px; color: #FF416C; font-weight: 800; }
+        .menu-info h4 { margin: 0 0 5px; font-size: 17px; font-weight: 700; color: #333; }
+        .menu-info p { margin: 0; font-size: 16px; color: var(--primary-red); font-weight: 800; }
 
         .add-btn {
-            background: var(--secondary-grad);
-            color: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 15px;
-            font-size: 26px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(253, 160, 133, 0.3);
+            background: var(--primary-grad); color: white; border: none;
+            width: 44px; height: 44px; border-radius: 14px; font-size: 24px;
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(178, 6, 16, 0.2);
         }
 
-        /* FLOATING CART BAR */
+        /* CART BAR */
         .cart-bar {
-            position: fixed;
-            bottom: 30px; left: 50%;
-            width: 90%;
-            max-width: 500px;
-            transform: translate(-50%, 150%);
-            background: #2d3436;
-            border-radius: 25px;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            z-index: 1000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: fixed; bottom: 30px; left: 50%; width: 90%; max-width: 500px;
+            transform: translate(-50%, 150%); background: #1a1a1a; border-radius: 25px;
+            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
+            color: white; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         .cart-bar.active { transform: translate(-50%, 0); }
+        .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 14px 28px; border-radius: 16px; font-weight: 800; cursor: pointer; }
 
-        .checkout-btn {
-            background: var(--primary-grad);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        /* POPUP BOTTOM SHEET */
-        .popup {
-            position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            display: none; z-index: 2000;
-            align-items: flex-end;
-        }
+        /* POPUP UI */
+        .popup { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: none; z-index: 2000; align-items: flex-end; }
         .popup.active { display: flex; }
-        
-        .popup-content {
-            background: #fff; width: 100%; max-width: 600px;
-            margin: 0 auto; border-radius: 35px 35px 0 0;
-            padding: 30px; max-height: 90vh; overflow-y: auto;
-        }
+        .popup-content { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 35px 35px 0 0; padding: 30px; max-height: 90vh; overflow-y: auto; }
 
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 11px; font-weight: 800; color: #b2bec3; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        input, select, textarea {
-            width: 100%; padding: 16px; border: 2px solid #f1f2f6;
-            border-radius: 18px; font-family: inherit; font-weight: 600; font-size: 16px;
-            background: #fafafa;
-        }
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-color: #FF416C; 
-            background: #fff; 
-            box-shadow: 0 0 0 4px rgba(255, 65, 108, 0.1); 
-        }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 11px; font-weight: 800; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        input, textarea, select { width: 100%; padding: 16px; border: 2px solid #f1f2f6; border-radius: 18px; font-family: inherit; font-weight: 600; font-size: 15px; background: #fafafa; }
+        input:focus, textarea:focus { outline: none; border-color: var(--primary-red); background: #fff; }
 
-        /* CART ITEMS */
-        .cart-item-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 18px 0; border-bottom: 1px solid #f8f9fa;
-        }
-        .qty-control {
-            display: flex; align-items: center; gap: 18px;
-            background: #f1f2f6; padding: 8px 16px; border-radius: 50px;
-        }
-        .qty-btn { 
-            background: none; border: none; color: var(--primary); 
-            font-size: 24px; font-weight: 800; cursor: pointer;
-        }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f8f9fa; }
+        .qty-control { display: flex; align-items: center; gap: 15px; background: #f1f2f6; padding: 8px 16px; border-radius: 50px; }
+        .qty-btn { background: none; border: none; color: var(--primary-red); font-size: 22px; font-weight: 800; cursor: pointer; }
 
-        .payment-summary {
-            background: #fffafa; border-radius: 24px;
-            padding: 24px; margin: 30px 0; border: 2px dashed #ffe5e5;
-        }
-        .summary-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; font-weight: 600; }
-        .summary-line.total { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ffd1d1; font-weight: 800; font-size: 22px; color: #2d3436; }
+        .payment-summary { background: #fff9f9; border-radius: 24px; padding: 24px; margin: 25px 0; border: 2px dashed #ffcccc; }
+        .summary-line { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #666; }
+        .summary-line.total { margin-top: 15px; padding-top: 15px; border-top: 1px solid #ffcccc; font-weight: 800; font-size: 22px; color: #2d3436; }
 
-        .btn-pesan {
-            width: 100%; background: var(--accent-grad); color: #1d3924; border: none;
-            padding: 22px; border-radius: 20px; font-weight: 800; font-size: 18px;
-            box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3); cursor: pointer;
-        }
+        .btn-pesan { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 22px; border-radius: 20px; font-weight: 800; font-size: 18px; cursor: pointer; box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3); }
 
-        /* Responsive Fix for Mobile Tabs */
-        @media (max-width: 600px) {
-            .tabs-container { justify-content: flex-start; }
-            .menu-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 600px) { .tabs-container { justify-content: flex-start; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>LESEHAN MACCA</h1>
-    <p>Premium Digital Menu • Sehat & Higienis</p>
+    <div class="logo-container">
+        <img src="images (1).jpg" alt="Lesehan Macca Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('text-logo').style.display='block';">
+        <h1 id="text-logo" class="brand-name" style="display:none;">Lesehan Macca</h1>
+    </div>
+    <p>Cita Rasa Khas, Lezatnya Sampai ke Hati</p>
 </header>
 
 <div class="tabs-container" id="tabBar">
-    <button class="tab-link active" onclick="openTab(event, 'ayam')">🍗 Ayam</button>
-    <button class="tab-link" onclick="openTab(event, 'ikan')">🐟 Ikan</button>
-    <button class="tab-link" onclick="openTab(event, 'udang')">🍤 Udang</button>
-    <button class="tab-link" onclick="openTab(event, 'nasimie')">🍚 Nasi & Mie</button>
-    <button class="tab-link" onclick="openTab(event, 'sayur')">🥬 Sayur</button>
+    <button class="tab-link active" data-id="ayam" onclick="openTab('ayam')">🍗 Ayam</button>
+    <button class="tab-link" data-id="ikan" onclick="openTab('ikan')">🐟 Ikan</button>
+    <button class="tab-link" data-id="udang" onclick="openTab('udang')">🍤 Udang</button>
+    <button class="tab-link" data-id="nasimie" onclick="openTab('nasimie')">🍚 Nasi & Mie</button>
+    <button class="tab-link" data-id="sayur" onclick="openTab('sayur')">🥬 Sayur</button>
 </div>
 
-<div class="container">
-    <div id="ayam" class="menu-section active">
-        <div class="section-title"><span>🍗</span> Olahan Ayam Pilihan</div>
-        <div class="menu-grid">
-            <div class="menu-card"><div class="menu-info"><h4>Ayam Bakar Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Bakar Macca', 14000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Macca', 14000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Tepung</h4><p>Rp 16.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Tepung', 16000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Ayam Saos Mentega</h4><p>Rp 17.000</p></div><button class="add-btn" onclick="addItem('Ayam Saos Mentega', 17000)">+</button></div>
+<div id="swipe-area">
+    <div class="container">
+        
+        <div id="ayam" class="menu-section active">
+            <div class="section-title">Olahan Ayam</div>
+            <div class="menu-grid">
+                <div class="menu-card"><div class="menu-info"><h4>Ayam Bakar Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Bakar Macca', 14000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Macca', 14000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Tepung</h4><p>Rp 16.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Tepung', 16000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Ayam Saos Mentega</h4><p>Rp 17.000</p></div><button class="add-btn" onclick="addItem('Ayam Saos Mentega', 17000)">+</button></div>
+            </div>
         </div>
-    </div>
 
-    <div id="ikan" class="menu-section">
-        <div class="section-title"><span>🐟</span> Olahan Ikan Segar</div>
-        <div class="menu-grid">
-            <div class="menu-card"><div class="menu-info"><h4>Bandeng Bakar</h4><p>Rp 13.000</p></div><button class="add-btn" onclick="addItem('Bandeng Bakar', 13000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Pallumara Bandeng</h4><p>Rp 20.000</p></div><button class="add-btn" onclick="addItem('Pallumara Bandeng', 20000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Ikan Kakap / Katamba</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Kakap / Katamba', 30000)">+</button></div>
+        <div id="ikan" class="menu-section">
+            <div class="section-title">Olahan Ikan</div>
+            <div class="menu-grid">
+                <div class="menu-card"><div class="menu-info"><h4>Bandeng Bakar</h4><p>Rp 13.000</p></div><button class="add-btn" onclick="addItem('Bandeng Bakar', 13000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Pallumara Bandeng</h4><p>Rp 20.000</p></div><button class="add-btn" onclick="addItem('Pallumara Bandeng', 20000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Layang Bakar/Goreng</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Layang Bakar/Goreng', 15000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Kakap / Katamba</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Kakap / Katamba', 30000)">+</button></div>
+            </div>
         </div>
-    </div>
 
-    <div id="udang" class="menu-section">
-        <div class="section-title"><span>🍤</span> Olahan Udang Laut</div>
-        <div class="menu-grid">
-            <div class="menu-card"><div class="menu-info"><h4>Udang Bakar</h4><p>Rp 28.000</p></div><button class="add-btn" onclick="addItem('Udang Bakar', 28000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Udang Goreng Tepung</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Udang Goreng Tepung', 30000)">+</button></div>
+        <div id="udang" class="menu-section">
+            <div class="section-title">Olahan Udang</div>
+            <div class="menu-grid">
+                <div class="menu-card"><div class="menu-info"><h4>Udang Bakar</h4><p>Rp 28.000</p></div><button class="add-btn" onclick="addItem('Udang Bakar', 28000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Udang Goreng Tepung</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Udang Goreng Tepung', 30000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Udang Saos Asam Manis</h4><p>Rp 30.000</p></div><button class="add-btn" onclick="addItem('Udang Saos Asam Manis', 30000)">+</button></div>
+            </div>
         </div>
-    </div>
 
-    <div id="nasimie" class="menu-section">
-        <div class="section-title"><span>🍚</span> Nasi & Mie Goreng</div>
-        <div class="menu-grid">
-            <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Biasa</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Biasa', 15000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Mie Goreng / Kering</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Mie Goreng / Kering', 15000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Nasi Putih</h4><p>Rp 5.000</p></div><button class="add-btn" onclick="addItem('Nasi Putih', 5000)">+</button></div>
+        <div id="nasimie" class="menu-section">
+            <div class="section-title">Nasi & Mie</div>
+            <div class="menu-grid">
+                <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Biasa</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Biasa', 15000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Seafood</h4><p>Rp 23.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Seafood', 23000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Mie Goreng / Kering</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Mie Goreng / Kering', 15000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Nasi Putih</h4><p>Rp 5.000</p></div><button class="add-btn" onclick="addItem('Nasi Putih', 5000)">+</button></div>
+            </div>
         </div>
-    </div>
 
-    <div id="sayur" class="menu-section">
-        <div class="section-title"><span>🥬</span> Sayur & Lauk</div>
-        <div class="menu-grid">
-            <div class="menu-card"><div class="menu-info"><h4>Cah Kangkung</h4><p>Rp 8.000</p></div><button class="add-btn" onclick="addItem('Cah Kangkung', 8000)">+</button></div>
-            <div class="menu-card"><div class="menu-info"><h4>Tahu/Tempe Goreng</h4><p>Rp 7.000</p></div><button class="add-btn" onclick="addItem('Tahu/Tempe Goreng', 7000)">+</button></div>
+        <div id="sayur" class="menu-section">
+            <div class="section-title">Sayur & Lauk</div>
+            <div class="menu-grid">
+                <div class="menu-card"><div class="menu-info"><h4>Cah Kangkung / Sawi</h4><p>Rp 8.000</p></div><button class="add-btn" onclick="addItem('Cah Kangkung / Sawi', 8000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Sayur Sup / Santan</h4><p>Rp 7.000</p></div><button class="add-btn" onclick="addItem('Sayur Sup / Santan', 7000)">+</button></div>
+                <div class="menu-card"><div class="menu-info"><h4>Tahu / Tempe Goreng</h4><p>Rp 7.000</p></div><button class="add-btn" onclick="addItem('Tahu / Tempe Goreng', 7000)">+</button></div>
+            </div>
         </div>
+
     </div>
 </div>
 
 <div class="cart-bar" id="cartBar">
     <div style="display:flex; align-items:center; gap:12px;">
-        <div style="background:rgba(255,255,255,0.2); padding:8px 16px; border-radius:15px; font-weight:800;" id="itemCount">0</div>
-        <strong id="totalText" style="font-size: 18px;">Rp 0</strong>
+        <div style="background:rgba(255,255,255,0.15); padding:8px 16px; border-radius:12px; font-weight:800;" id="itemCount">0</div>
+        <strong id="totalText" style="font-size:18px;">Rp 0</strong>
     </div>
     <button class="checkout-btn" onclick="openPopup()">Review Pesanan</button>
 </div>
 
 <div class="popup" id="popup">
     <div class="popup-content">
-        <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 25px; border-radius: 10px;"></div>
-        <h3 style="margin: 0 0 25px; font-weight: 800; font-size: 24px;">Ringkasan Pesanan</h3>
+        <div style="width: 40px; height: 5px; background: #ddd; margin: 0 auto 25px; border-radius: 10px;"></div>
+        <h3 style="margin: 0 0 25px; font-weight: 800; font-size: 24px; color: #1a1a1a;">Review Pesanan</h3>
         
-        <div class="input-group"><label>Nama Pemesan</label><input id="nama" type="text"></div>
-        <div class="input-group"><label>Nomor WhatsApp</label><input id="telp" type="tel"></div>
-        <div class="input-group"><label>Alamat Lengkap</label><textarea id="alamat"></textarea></div>
+        <div class="input-group"><label>Nama Lengkap</label><input id="nama" type="text"></div>
+        <div class="input-group"><label>WhatsApp</label><input id="telp" type="tel"></div>
+        <div class="input-group"><label>Alamat Pengiriman</label><textarea id="alamat" rows="3"></textarea></div>
         <div class="input-group">
             <label>Metode Pembayaran</label>
             <select id="bayar" onchange="renderCart()">
-                <option value="COD">💵 COD (Bayar di Tempat)</option>
+                <option value="COD">💵 Bayar di Tempat (COD)</option>
                 <option value="Transfer">🏦 Transfer Bank</option>
             </select>
         </div>
 
-        <div id="cartList"></div>
+        <div id="cartList" style="margin-top:20px;"></div>
 
         <div class="payment-summary">
-            <div class="summary-line"><span>Total Harga Menu</span><span id="subtotalText">Rp 0</span></div>
-            <div class="summary-line" id="ongkirLine"><span>Biaya Ongkos Kirim</span><span>Rp 5.000</span></div>
-            <div class="summary-line total"><span>Total Bayar</span><span id="popupTotal" style="color:#FF416C;">Rp 0</span></div>
+            <div class="summary-line"><span>Subtotal</span><span id="subtotalText">Rp 0</span></div>
+            <div class="summary-line" id="ongkirLine"><span>Ongkos Kirim</span><span>Rp 5.000</span></div>
+            <div class="summary-line total"><span>Total Keseluruhan</span><span id="popupTotal" style="color:var(--primary-red);">Rp 0</span></div>
         </div>
 
-        <button class="btn-pesan" onclick="sendWA()">PESAN SEKARANG</button>
-        <button onclick="closePopup()" style="width:100%; background:none; border:none; color:#999; margin-top:20px; font-weight:700; cursor:pointer;">Lanjut Belanja</button>
+        <button class="btn-pesan" onclick="sendWA()">Kirim Pesanan ke WhatsApp</button>
+        <button onclick="closePopup()" style="width:100%; background:none; border:none; color:#bbb; margin-top:20px; font-weight:700; cursor:pointer;">Kembali Memilih Menu</button>
     </div>
 </div>
 
 <script>
     let cart = [];
-    const ongkirVal = 5000;
+    const categories = ['ayam', 'ikan', 'udang', 'nasimie', 'sayur'];
+    let currentIndex = 0;
     const adminWA = '6285242522956';
-
-    function openTab(evt, tabName) {
-        const sections = document.getElementsByClassName("menu-section");
-        for (let s of sections) { s.classList.remove("active"); }
-        const tabs = document.getElementsByClassName("tab-link");
-        for (let t of tabs) { t.classList.remove("active"); }
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
-        
-        evt.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }
+    const ongkirVal = 5000;
 
     function formatRupiah(n) { return n.toLocaleString('id-ID'); }
+
+    function openTab(tabId) {
+        currentIndex = categories.indexOf(tabId);
+        document.querySelectorAll(".menu-section").forEach(s => s.classList.remove("active"));
+        document.querySelectorAll(".tab-link").forEach(t => t.classList.remove("active"));
+        document.getElementById(tabId).classList.add("active");
+        const activeBtn = document.querySelector(`[data-id="${tabId}"]`);
+        activeBtn.classList.add("active");
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Swipe Navigation
+    let tsX = 0;
+    document.getElementById('swipe-area').addEventListener('touchstart', e => tsX = e.touches[0].clientX);
+    document.getElementById('swipe-area').addEventListener('touchend', e => {
+        let teX = e.changedTouches[0].clientX;
+        if (tsX - teX > 80 && currentIndex < categories.length - 1) openTab(categories[currentIndex + 1]);
+        if (teX - tsX > 80 && currentIndex > 0) openTab(categories[currentIndex - 1]);
+    });
 
     function addItem(name, price) {
         cart.push({ name, price });
         updateUI();
-        if(document.getElementById('popup').classList.contains('active')) renderCart();
+        if(document.getElementById('popup').style.display === 'flex') renderCart();
     }
-
     function removeItem(name, price) {
-        const index = cart.findIndex(i => i.name === name && i.price === price);
-        if (index > -1) {
-            cart.splice(index, 1);
-            updateUI();
-            renderCart();
-            if(cart.length === 0) closePopup();
-        }
+        const idx = cart.findIndex(i => i.name === name && i.price === price);
+        if (idx > -1) { cart.splice(idx, 1); updateUI(); renderCart(); }
     }
-
     function updateUI() {
         const total = cart.reduce((s, i) => s + i.price, 0);
         document.getElementById('cartBar').classList.toggle('active', cart.length > 0);
         document.getElementById('totalText').innerText = `Rp ${formatRupiah(total)}`;
         document.getElementById('itemCount').innerText = cart.length;
     }
-
-    function openPopup() {
-        renderCart();
-        document.getElementById('popup').style.display = 'flex';
-        setTimeout(() => document.getElementById('popup').classList.add('active'), 10);
-    }
-
-    function closePopup() { 
-        document.getElementById('popup').classList.remove('active');
-        setTimeout(() => document.getElementById('popup').style.display = 'none', 300);
-    }
-
+    function openPopup() { renderCart(); document.getElementById('popup').style.display = 'flex'; setTimeout(() => document.getElementById('popup').classList.add('active'), 10); }
+    function closePopup() { document.getElementById('popup').classList.remove('active'); setTimeout(() => document.getElementById('popup').style.display = 'none', 300); }
+    
     function renderCart() {
         const list = document.getElementById('cartList');
         list.innerHTML = '';
         let subtotal = 0;
-        const itemMap = {};
+        const map = {};
+        cart.forEach(i => { map[i.name] = map[i.name] || { ...i, qty: 0 }; map[i.name].qty++; subtotal += i.price; });
         
-        cart.forEach(i => {
-            itemMap[i.name] = itemMap[i.name] || { ...i, qty: 0 };
-            itemMap[i.name].qty++;
-            subtotal += i.price;
+        Object.values(map).forEach(item => {
+            const d = document.createElement('div');
+            d.className = 'cart-item-row';
+            d.innerHTML = `<div><div style="font-weight:700;">${item.name}</div><div style="color:var(--primary-red); font-weight:800; font-size:13px;">Rp ${formatRupiah(item.price)}</div></div>
+                <div class="qty-control"><button class="qty-btn" onclick="removeItem('${item.name}', ${item.price})">−</button>
+                <span style="font-weight:800;">${item.qty}</span><button class="qty-btn" onclick="addItem('${item.name}', ${item.price})">+</button></div>`;
+            list.appendChild(d);
         });
 
-        Object.values(itemMap).forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'cart-item-row';
-            div.innerHTML = `
-                <div><div style="font-weight:700;">${item.name}</div><div style="color:#FF416C; font-weight:800; font-size:14px;">Rp ${formatRupiah(item.price)}</div></div>
-                <div class="qty-control">
-                    <button class="qty-btn" onclick="removeItem('${item.name}', ${item.price})">−</button>
-                    <span style="font-weight:800; min-width:20px; text-align:center;">${item.qty}</span>
-                    <button class="qty-btn" onclick="addItem('${item.name}', ${item.price})">+</button>
-                </div>`;
-            list.appendChild(div);
-        });
-
-        const method = document.getElementById('bayar').value;
-        const currentOngkir = (method === 'COD') ? ongkirVal : 0;
-        document.getElementById('ongkirLine').style.display = (method === 'COD') ? 'flex' : 'none';
+        const meth = document.getElementById('bayar').value;
+        const currentOngkir = (meth === 'COD') ? ongkirVal : 0;
+        document.getElementById('ongkirLine').style.display = (meth === 'COD') ? 'flex' : 'none';
         document.getElementById('subtotalText').innerText = `Rp ${formatRupiah(subtotal)}`;
         document.getElementById('popupTotal').innerText = `Rp ${formatRupiah(subtotal + currentOngkir)}`;
     }
 
     function sendWA() {
         const nama = document.getElementById('nama').value;
-        const telp = document.getElementById('telp').value;
         const alamat = document.getElementById('alamat').value;
-        const method = document.getElementById('bayar').value;
+        const telp = document.getElementById('telp').value;
+        const meth = document.getElementById('bayar').value;
+        if(!nama || !alamat || !telp) return alert("Harap isi data pengiriman dengan lengkap.");
+        
+        let sub = 0; const map = {};
+        cart.forEach(i => { map[i.name] = map[i.name] || { ...i, qty: 0 }; map[i.name].qty++; sub += i.price; });
+        const total = sub + (meth === 'COD' ? ongkirVal : 0);
 
-        if(!nama || !telp || !alamat) return alert("Mohon lengkapi data pemesan!");
-
-        let subtotal = 0;
-        const itemMap = {};
-        cart.forEach(i => {
-            itemMap[i.name] = itemMap[i.name] || { ...i, qty: 0 };
-            itemMap[i.name].qty++;
-            subtotal += i.price;
-        });
-
-        const total = subtotal + (method === 'COD' ? ongkirVal : 0);
-        let msg = `*PESANAN BARU - LESEHAN MACCA*%0A%0A`;
-        msg += `*Nama:* ${nama}%0A*WhatsApp:* ${telp}%0A*Alamat:* ${alamat}%0A*Pembayaran:* ${method}%0A%0A*Detail Pesanan:*%0A`;
-        Object.values(itemMap).forEach(i => msg += `- ${i.name} (${i.qty}x) = Rp ${formatRupiah(i.qty*i.price)}%0A`);
-        msg += `%0A*TOTAL AKHIR: Rp ${formatRupiah(total)}*%0A%0A_Mohon diproses, terima kasih!_`;
-
-        window.open(`https://wa.me/${adminWA}?text=${msg}`, '_blank');
+        let m = `*PESANAN BARU - LESEHAN MACCA*%0A%0A*Pelanggan:* ${nama}%0A*WhatsApp:* ${telp}%0A*Alamat:* ${alamat}%0A*Pembayaran:* ${meth}%0A%0A*Daftar Menu:*%0A`;
+        Object.values(map).forEach(i => m += `- ${i.name} (${i.qty}x)%0A`);
+        m += `%0A*TOTAL AKHIR: Rp ${formatRupiah(total)}*`;
+        window.open(`https://wa.me/${adminWA}?text=${m}`, '_blank');
     }
 </script>
 </body>
