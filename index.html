@@ -34,7 +34,7 @@
             touch-action: pan-y;
         }
 
-        /* HEADER IDENTIK REFERENSI */
+        /* HEADER */
         header {
             background-color: var(--primary-red);
             background-image: 
@@ -102,17 +102,13 @@
         }
 
         /* MENU GRID */
-        #swipe-area { min-height: 50vh; width: 100%; }
         .container { max-width: 750px; margin: 0 auto; padding: 20px; }
-        
         .menu-section { display: none; }
         .menu-section.active { display: block; animation: fadeIn 0.4s ease-out; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .section-title { 
             font-size: 22px; font-weight: 800; margin: 10px 0 25px; 
-            display: flex; align-items: center; gap: 12px;
             color: var(--primary-red);
         }
         
@@ -130,7 +126,7 @@
         .add-btn {
             background: var(--primary-grad); color: white; border: none;
             width: 44px; height: 44px; border-radius: 14px; font-size: 24px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(139, 26, 26, 0.2);
+            font-weight: bold; cursor: pointer;
         }
 
         /* CART BAR */
@@ -143,26 +139,67 @@
         .cart-bar.active { transform: translate(-50%, 0); }
         .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 14px 28px; border-radius: 16px; font-weight: 800; cursor: pointer; }
 
-        /* POPUP */
+        /* POPUP & FIX RESPONSIVE */
         .popup { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: none; z-index: 2000; align-items: flex-end; }
         .popup.active { display: flex; }
         .popup-content { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 35px 35px 0 0; padding: 30px; max-height: 90vh; overflow-y: auto; }
 
         .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 11px; font-weight: 800; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group label { display: block; font-size: 11px; font-weight: 800; color: #999; margin-bottom: 8px; text-transform: uppercase; }
         input, textarea, select { width: 100%; padding: 16px; border: 2px solid #f1f2f6; border-radius: 18px; font-family: inherit; font-weight: 600; font-size: 15px; background: #fafafa; }
-        input:focus, textarea:focus { outline: none; border-color: var(--primary-red); background: #fff; }
 
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f8f9fa; }
-        .qty-control { display: flex; align-items: center; gap: 15px; background: #f1f2f6; padding: 8px 16px; border-radius: 50px; }
-        .qty-btn { background: none; border: none; color: var(--primary-red); font-size: 22px; font-weight: 800; cursor: pointer; }
+        /* FIX: Agar harga dan kontrol QTY tidak turun */
+        .cart-item-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 0; 
+            border-bottom: 1px solid #f8f9fa;
+            gap: 10px;
+        }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-info div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .payment-summary { background: #fff9f9; border-radius: 24px; padding: 24px; margin: 25px 0; border: 2px dashed #ffcccc; }
-        .summary-line { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #666; }
-        .summary-line.total { margin-top: 15px; padding-top: 15px; border-top: 1px solid #ffcccc; font-weight: 800; font-size: 22px; color: #2d3436; }
+        .qty-control { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            background: #f1f2f6; 
+            padding: 6px 12px; 
+            border-radius: 50px;
+            flex-shrink: 0; /* Mencegah kontrol mengecil/turun */
+        }
+        .qty-btn { background: none; border: none; color: var(--primary-red); font-size: 20px; font-weight: 800; cursor: pointer; padding: 0 5px; }
 
-        .btn-pesan { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 22px; border-radius: 20px; font-weight: 800; font-size: 18px; cursor: pointer; box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3); }
-        @media (max-width: 600px) { .tabs-container { justify-content: flex-start; } }
+        .payment-summary { background: #fff9f9; border-radius: 24px; padding: 20px; margin: 25px 0; border: 2px dashed #ffcccc; }
+        
+        /* FIX: Agar total keseluruhan tetap satu baris */
+        .summary-line { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #666;
+            gap: 10px;
+        }
+        .summary-line.total { 
+            margin-top: 15px; 
+            padding-top: 15px; 
+            border-top: 1px solid #ffcccc; 
+            font-weight: 800; 
+            font-size: 18px; 
+            color: #2d3436; 
+        }
+        .summary-line span:last-child { flex-shrink: 0; text-align: right; }
+
+        .btn-pesan { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 20px; border-radius: 20px; font-weight: 800; font-size: 18px; cursor: pointer; }
+        
+        @media (max-width: 400px) {
+            .summary-line.total { font-size: 16px; }
+            .popup-content { padding: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -237,7 +274,6 @@
         <div class="input-group"><label>Nama Lengkap</label><input id="nama" type="text"></div>
         <div class="input-group"><label>Nomor WhatsApp</label><input id="telp" type="tel"></div>
         <div class="input-group"><label>Alamat Pengiriman</label><textarea id="alamat" rows="2"></textarea></div>
-        
         <div class="input-group"><label>Pesan Khusus</label><input id="pesan_khusus" type="text"></div>
         
         <div class="input-group">
@@ -281,6 +317,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Swipe Navigation
     let tsX = 0;
     document.getElementById('swipe-area').addEventListener('touchstart', e => tsX = e.touches[0].clientX);
     document.getElementById('swipe-area').addEventListener('touchend', e => {
@@ -317,9 +354,15 @@
         Object.values(map).forEach(item => {
             const d = document.createElement('div');
             d.className = 'cart-item-row';
-            d.innerHTML = `<div><div style="font-weight:700;">${item.name}</div><div style="color:var(--primary-red); font-weight:800; font-size:13px;">Rp ${formatRupiah(item.price)}</div></div>
-                <div class="qty-control"><button class="qty-btn" onclick="removeItem('${item.name}', ${item.price})">−</button>
-                <span style="font-weight:800;">${item.qty}</span><button class="qty-btn" onclick="addItem('${item.name}', ${item.price})">+</button></div>`;
+            d.innerHTML = `<div class="cart-item-info">
+                    <div style="font-weight:700; color:#333;">${item.name}</div>
+                    <div style="color:var(--primary-red); font-weight:800; font-size:13px;">Rp ${formatRupiah(item.price)}</div>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="removeItem('${item.name}', ${item.price})">−</button>
+                    <span style="font-weight:800; min-width:20px; text-align:center;">${item.qty}</span>
+                    <button class="qty-btn" onclick="addItem('${item.name}', ${item.price})">+</button>
+                </div>`;
             list.appendChild(d);
         });
 
@@ -348,15 +391,10 @@
         m += `📞 *WhatsApp:* ${telp}%0A`;
         m += `📍 *Alamat:* ${alamat}%0A`;
         m += `💳 *Pembayaran:* ${meth}%0A`;
-        
-        if(pesanKhusus.trim() !== "") {
-            m += `📝 *Pesan Khusus:* ${pesanKhusus}%0A`;
-        }
-        
+        if(pesanKhusus.trim() !== "") m += `📝 *Pesan Khusus:* ${pesanKhusus}%0A`;
         m += `%0A*DAFTAR MENU:*%0A`;
         Object.values(map).forEach(i => m += `- ${i.name} (${i.qty}x)%0A`);
         m += `%0A*TOTAL AKHIR: Rp ${formatRupiah(total)}*`;
-        
         window.open(`https://wa.me/${adminWA}?text=${m}`, '_blank');
     }
 </script>
