@@ -125,7 +125,7 @@
             <div class="summary-line" id="ongkirLine"><span>Ongkir</span><span>Rp 5.000</span></div>
             <div class="summary-line total"><span>Total Akhir</span><span id="popupTotal">Rp 0</span></div>
         </div>
-        <button class="btn-selesai" onclick="simpanKeFirebase()">SELESAIKAN PESANAN</button>
+        <button id="btnFinal" class="btn-selesai" onclick="simpanKeFirebase()">SELESAIKAN PESANAN</button>
         <button onclick="closePopup()" style="width:100%; background:none; border:none; color:#999; margin-top:12px;">Kembali</button>
     </div>
 </div>
@@ -204,7 +204,15 @@
     }
 
     function addItem(name, price) { cart.push({name, price}); updateUI(); }
-    function removeItem(name) { const i = cart.findIndex(x => x.name === name); if(i > -1) { cart.splice(i, 1); updateUI(); if(document.getElementById('popup').style.display === 'flex') renderCart(); } }
+    
+    function removeItem(name) { 
+        const i = cart.findIndex(x => x.name === name); 
+        if(i > -1) { 
+            cart.splice(i, 1); 
+            updateUI(); 
+            if(document.getElementById('popup').style.display === 'flex') renderCart(); 
+        } 
+    }
 
     function updateUI() {
         const total = cart.reduce((s, x) => s + x.price, 0);
@@ -236,16 +244,26 @@
         if (!navigator.geolocation) return alert("GPS tidak didukung");
         document.getElementById('gpsStatus').innerText = "⏳ Mencari Lokasi...";
         navigator.geolocation.getCurrentPosition(p => {
-            gpsLink = "https://www.google.com/maps?q=" + p.coords.latitude + "," + p.coords.longitude;
+            gpsLink = `https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
             document.getElementById('gpsStatus').innerText = "✅ Lokasi Terkunci";
-        }, () => alert("Gagal ambil GPS"));
+        }, () => {
+            alert("Gagal ambil GPS. Pastikan izin lokasi aktif.");
+            document.getElementById('gpsStatus').innerText = "❌ Gagal Ambil Lokasi";
+        });
     }
 
     function simpanKeFirebase() {
         const n = document.getElementById('nama').value;
         const w = document.getElementById('telp').value;
         const a = document.getElementById('alamat').value;
+        const btn = document.getElementById('btnFinal');
+
         if(!n || !w || !a) return Swal.fire('Oops!', 'Mohon lengkapi data!', 'warning');
+        if(cart.length === 0) return Swal.fire('Oops!', 'Keranjang kosong!', 'warning');
+
+        // Disable button to prevent double submit
+        btn.disabled = true;
+        btn.innerText = "MENGIRIM...";
 
         const sum = {}; cart.forEach(x => { sum[x.name] = (sum[x.name] || 0) + 1; });
         let detailOrder = "";
@@ -257,17 +275,32 @@
             alamat: a,
             gps: gpsLink,
             pembayaran: document.getElementById('bayar').value,
-            items: detailOrder,
+            items: detailOrder.slice(0, -2),
             total: document.getElementById('popupTotal').innerText,
             status: 'new',
             timestamp: Date.now()
         }).then(() => {
+            // Tutup popup detail dulu agar tidak menumpuk di belakang alert
+            closePopup();
+            
             Swal.fire({
                 title: 'Berhasil!',
                 text: 'Pesanan Anda telah dikirim ke Admin Delivery.',
                 icon: 'success',
                 confirmButtonColor: '#8B1A1A'
-            }).then(() => { cart = []; updateUI(); closePopup(); });
+            }).then(() => { 
+                // Reset State
+                cart = []; 
+                updateUI();
+                document.getElementById('alamat').value = "";
+                btn.disabled = false;
+                btn.innerText = "SELESAIKAN PESANAN";
+            });
+        }).catch(err => {
+            console.error(err);
+            btn.disabled = false;
+            btn.innerText = "SELESAIKAN PESANAN";
+            Swal.fire('Error', 'Gagal mengirim pesanan. Coba lagi.', 'error');
         });
     }
 
