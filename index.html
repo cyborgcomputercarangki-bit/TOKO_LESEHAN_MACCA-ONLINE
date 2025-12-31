@@ -1,55 +1,147 @@
-function getLocation() {
-    // Cek apakah browser mendukung Geolocation
-    if (!navigator.geolocation) {
-        return Swal.fire('Error', 'Browser Anda tidak mendukung GPS.', 'error');
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Lesehan Macca - Delivery Smart Radius</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-red: #8B1A1A; 
+            --primary-grad: linear-gradient(135deg, #8B1A1A 0%, #B20610 100%);
+            --bg: #f8f9fa;
+            --text-dark: #2d3436;
+        }
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); padding-bottom: 100px; }
+        header { background: var(--primary-grad); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        
+        .status-box { 
+            background: white; padding: 15px; border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center;
+        }
+
+        .btn-gps { 
+            background: #007AFF; color: white; border: none; width: 100%; 
+            padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .info-radius {
+            margin-top: 10px; font-size: 12px; color: #666; font-weight: 600;
+        }
+
+        .badge-radius {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 11px; margin-top: 5px;
+        }
+        .within-radius { background: #e3fcef; color: #00a854; }
+        .outside-radius { background: #fff1f0; color: #f5222d; }
+
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; }
+        .summary { background: #fffbe6; padding: 15px; border-radius: 10px; border: 1px dashed #ffe58f; margin-bottom: 20px; }
+        .btn-order { background: var(--primary-grad); color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: 800; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0">Lesehan Macca</h1>
+    <p style="margin:5px 0 0; opacity:0.8">Sistem Delivery Otomatis</p>
+</header>
+
+<div class="container">
+    <div class="status-box">
+        <button class="btn-gps" onclick="checkLocation()">
+            📍 VERIFIKASI LOKASI SAYA
+        </button>
+        <div id="radiusIndicator"></div>
+        <p class="info-radius">Kami melayani pengiriman maksimal radius 5 KM dari Toko.</p>
+    </div>
+
+    <div id="orderForm" style="display: none;">
+        <input type="text" id="nama" placeholder="Nama Lengkap">
+        <input type="tel" id="telp" placeholder="Nomor WhatsApp">
+        <textarea id="alamat" rows="3" placeholder="Alamat Detail & Patokan Rumah"></textarea>
+        
+        <div class="summary">
+            <div style="display:flex; justify-content:space-between">
+                <span>Jarak Anda:</span>
+                <b id="txtJarak">0 KM</b>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:5px">
+                <span>Ongkir:</span>
+                <b id="txtOngkir">Rp 0</b>
+            </div>
+        </div>
+
+        <button class="btn-order" onclick="submitOrder()">KIRIM PESANAN SEKARANG</button>
+    </div>
+</div>
+
+<script>
+    // --- SETINGAN TOKO ANDA ---
+    const KOORDINAT_TOKO = { lat: -5.1476, lon: 119.4327 }; // Ganti dengan titik toko Anda
+    const MAX_RADIUS = 5.0; // Radius maksimal dalam KM
+    const ONGKIR_FLAT = 5000; // Ongkir jika di bawah 5KM
+
+    let dataLokasi = null;
+
+    function checkLocation() {
+        if (!navigator.geolocation) return Swal.fire("Error", "GPS tidak didukung", "error");
+        
+        Swal.fire({ title: 'Mencari Lokasi...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const userLat = pos.coords.latitude;
+            const userLon = pos.coords.longitude;
+            const jarak = calculateDistance(KOORDINAT_TOKO.lat, KOORDINAT_TOKO.lon, userLat, userLon);
+
+            Swal.close();
+            
+            const indicator = document.getElementById('radiusIndicator');
+            const form = document.getElementById('orderForm');
+
+            if (jarak <= MAX_RADIUS) {
+                dataLokasi = { lat: userLat, lon: userLon, dist: jarak };
+                indicator.innerHTML = `<span class="badge-radius within-radius">✅ Lokasi Terverifikasi (${jarak.toFixed(2)} KM)</span>`;
+                form.style.display = 'block';
+                document.getElementById('txtJarak').innerText = jarak.toFixed(2) + " KM";
+                document.getElementById('txtOngkir').innerText = "Rp " + ONGKIR_FLAT.toLocaleString();
+                
+                Swal.fire("Berhasil", "Lokasi Anda masuk dalam radius pengiriman!", "success");
+            } else {
+                form.style.display = 'none';
+                indicator.innerHTML = `<span class="badge-radius outside-radius">❌ Di Luar Jangkauan (${jarak.toFixed(2)} KM)</span>`;
+                Swal.fire("Maaf", "Lokasi Anda terlalu jauh (> 5KM). Kami belum bisa mengirim ke sana.", "warning");
+            }
+        }, () => {
+            Swal.close();
+            Swal.fire("Gagal GPS", "Pastikan izin lokasi aktif dan gunakan koneksi internet stabil (HTTPS wajib).", "error");
+        }, { enableHighAccuracy: true });
     }
 
-    document.getElementById('gpsStatus').innerText = "⌛ Menghubungkan Satelit...";
-    
-    // Opsi akurasi tinggi
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 10000, // Menunggu maksimal 10 detik
-        maximumAge: 0
-    };
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
 
-    navigator.geolocation.getCurrentPosition(
-        (pos) => {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
-            userLocation = { lat, lon };
-            
-            // Hitung Jarak
-            const km = calculateDistance(TOKO_LOKASI.lat, TOKO_LOKASI.lon, lat, lon);
-            
-            // Hitung Ongkir
-            finalOngkir = Math.max(ONGKIR_MIN, Math.ceil(km) * BIAYA_PER_KM);
-            
-            document.getElementById('gpsStatus').innerText = "✅ LOKASI TERKUNCI";
-            document.getElementById('distanceText').innerText = `Jarak: ${km.toFixed(2)} KM dari Toko`;
-            
-            renderCart();
-            Swal.fire({
-                title: 'Lokasi Ditemukan!',
-                text: `Jarak ke toko sekitar ${km.toFixed(2)} KM. Ongkir otomatis terhitung.`,
-                icon: 'success',
-                confirmButtonColor: '#8B1A1A'
-            });
-        },
-        (err) => {
-            document.getElementById('gpsStatus').innerText = "❌ GAGAL DETEKSI LOKASI";
-            
-            let pesanError = "Pastikan GPS aktif dan izin lokasi diberikan.";
-            if (err.code === 1) pesanError = "Anda menolak izin lokasi. Silakan aktifkan di pengaturan browser.";
-            if (err.code === 3) pesanError = "Waktu pencarian habis (Sinyal Lemah).";
+    function submitOrder() {
+        const n = document.getElementById('nama').value;
+        const w = document.getElementById('telp').value;
+        const a = document.getElementById('alamat').value;
 
-            Swal.fire({
-                title: 'Gagal Deteksi',
-                html: `${pesanError}<br><br><small>Tips: Jika di dalam ruangan, coba mendekat ke jendela atau gunakan koneksi data seluler.</small>`,
-                icon: 'error',
-                confirmButtonText: 'Coba Lagi'
-            });
-        },
-        options
-    );
-}
+        if(!n || !w || !a) return Swal.fire("Data Belum Lengkap", "Mohon isi semua kolom.", "warning");
+
+        // Di sini tambahkan logika simpan ke Firebase Anda seperti sebelumnya
+        Swal.fire("Sukses", "Pesanan diproses!", "success");
+    }
+</script>
+</body>
+</html>
