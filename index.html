@@ -3,400 +3,275 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Lesehan Macca - Official Menu</title>
+    <title>Lesehan Macca - Menu Lengkap</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary-red: #8B1A1A; 
             --primary-grad: linear-gradient(135deg, #8B1A1A 0%, #B20610 100%);
-            --brand-yellow: #f1c40f;
             --bg: #f8f9fa;
             --card: #ffffff;
             --text-dark: #2d3436;
-            --text-light: #636e72;
             --radius: 20px;
             --accent-grad: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
         }
 
-        * { 
-            -webkit-tap-highlight-color: transparent; 
-            box-sizing: border-box; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 140px; }
 
-        body {
-            margin: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text-dark);
-            padding-bottom: 140px;
-            overflow-x: hidden;
-            touch-action: pan-y;
-        }
-
-        /* HEADER */
         header {
             background-color: var(--primary-red);
-            background-image: 
-                linear-gradient(rgba(139, 26, 26, 0.8), rgba(139, 26, 26, 0.8)),
-                url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_PcT_KT8CxOUK5xJCqiPIehvmKsQQ2__Yhg&s');
-            background-size: cover;
-            background-position: center;
-            padding: 50px 20px 80px;
-            text-align: center;
-            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500');
+            background-size: cover; background-position: center; padding: 40px 20px; text-align: center;
         }
 
-        .header-content {
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        .main-logo-text { color: white; font-size: 32px; font-weight: 800; margin: 0; font-style: italic; }
+        header p { color: white; opacity: 0.9; margin-top: 5px; font-size: 13px; }
 
-        .main-logo {
-            width: 200px;
-            height: auto;
-            margin-bottom: 10px;
-            mix-blend-mode: lighten; 
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
-        }
-
-        header p {
-            color: white;
-            font-size: 15px;
-            font-weight: 400;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        header::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            height: 6px;
-            background: var(--brand-yellow);
-            border-radius: 10px 10px 0 0;
-        }
-
-        /* TABS */
         .tabs-container {
             position: sticky; top: 0; background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px); z-index: 100; padding: 15px 0;
-            display: flex; justify-content: center; gap: 12px;
-            overflow-x: auto; padding-left: 20px; padding-right: 20px;
-            border-bottom: 1px solid #f1f1f1; scrollbar-width: none;
+            backdrop-filter: blur(15px); z-index: 100; padding: 12px 0;
+            display: flex; gap: 8px; overflow-x: auto; padding-left: 15px;
+            border-bottom: 1px solid #eee; scrollbar-width: none;
         }
         .tabs-container::-webkit-scrollbar { display: none; }
         
         .tab-link {
-            white-space: nowrap; padding: 12px 24px; background: #fff;
-            border: 1.5px solid #eee; border-radius: 50px; font-size: 14px;
-            font-weight: 700; color: var(--text-light); cursor: pointer;
+            white-space: nowrap; padding: 10px 20px; background: #fff;
+            border: 1px solid #eee; border-radius: 50px; font-weight: 700; color: #636e72;
+            cursor: pointer; font-size: 13px;
         }
+        .tab-link.active { background: var(--primary-red); color: white; border-color: transparent; box-shadow: 0 5px 12px rgba(139, 26, 26, 0.2); }
 
-        .tab-link.active {
-            background: var(--primary-red); color: white; border-color: transparent;
-            box-shadow: 0 8px 20px rgba(139, 26, 26, 0.3);
-        }
-
-        /* MENU GRID */
-        .container { max-width: 750px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 10px 15px; }
         .menu-section { display: none; }
-        .menu-section.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .menu-section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-title { 
-            font-size: 22px; font-weight: 800; margin: 10px 0 25px; 
-            color: var(--primary-red);
-        }
-        
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-        
+        .section-title { font-size: 16px; font-weight: 800; color: var(--primary-red); margin: 20px 0 10px; border-left: 4px solid var(--primary-red); padding-left: 10px; }
+
         .menu-card {
-            background: var(--card); border-radius: var(--radius); padding: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02); border: 1px solid #f3f3f3;
+            background: var(--card); border-radius: var(--radius); overflow: hidden;
+            display: flex; align-items: center; padding: 10px; margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #f0f0f0;
         }
-
-        .menu-info h4 { margin: 0 0 5px; font-size: 17px; font-weight: 700; color: #333; }
-        .menu-info p { margin: 0; font-size: 16px; color: var(--primary-red); font-weight: 800; }
-
-        .add-btn {
-            background: var(--primary-grad); color: white; border: none;
-            width: 44px; height: 44px; border-radius: 14px; font-size: 24px;
-            font-weight: bold; cursor: pointer;
-        }
+        .product-img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #f5f5f5; flex-shrink: 0; }
+        .menu-info { flex: 1; padding: 0 12px; }
+        .menu-info h4 { margin: 0 0 2px; font-size: 13px; font-weight: 700; color: #333; line-height: 1.2; }
+        .menu-info p { margin: 0; font-size: 14px; color: var(--primary-red); font-weight: 800; }
+        .add-btn { background: var(--primary-grad); color: white; border: none; width: 34px; height: 34px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
 
         /* CART BAR */
-        .cart-bar {
-            position: fixed; bottom: 30px; left: 50%; width: 90%; max-width: 500px;
-            transform: translate(-50%, 150%); background: #1a1a1a; border-radius: 25px;
-            padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
-            color: white; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
+        .cart-bar { position: fixed; bottom: 20px; left: 50%; width: 92%; max-width: 500px; transform: translate(-50%, 150%); background: #1a1a1a; border-radius: 18px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; color: white; z-index: 1000; transition: transform 0.3s; }
         .cart-bar.active { transform: translate(-50%, 0); }
-        .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 14px 28px; border-radius: 16px; font-weight: 800; cursor: pointer; }
-
-        /* POPUP & FIX RESPONSIVE */
-        .popup { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: none; z-index: 2000; align-items: flex-end; }
-        .popup.active { display: flex; }
-        .popup-content { background: #fff; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 35px 35px 0 0; padding: 30px; max-height: 90vh; overflow-y: auto; }
-
-        .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 11px; font-weight: 800; color: #999; margin-bottom: 8px; text-transform: uppercase; }
-        input, textarea, select { width: 100%; padding: 16px; border: 2px solid #f1f2f6; border-radius: 18px; font-family: inherit; font-weight: 600; font-size: 15px; background: #fafafa; }
-
-        /* FIX: Agar harga dan kontrol QTY tidak turun */
-        .cart-item-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 15px 0; 
-            border-bottom: 1px solid #f8f9fa;
-            gap: 10px;
-        }
-        .cart-item-info { flex: 1; min-width: 0; }
-        .cart-item-info div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .qty-control { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            background: #f1f2f6; 
-            padding: 6px 12px; 
-            border-radius: 50px;
-            flex-shrink: 0; /* Mencegah kontrol mengecil/turun */
-        }
-        .qty-btn { background: none; border: none; color: var(--primary-red); font-size: 20px; font-weight: 800; cursor: pointer; padding: 0 5px; }
-
-        .payment-summary { background: #fff9f9; border-radius: 24px; padding: 20px; margin: 25px 0; border: 2px dashed #ffcccc; }
+        .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; cursor: pointer; }
         
-        /* FIX: Agar total keseluruhan tetap satu baris */
-        .summary-line { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 10px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #666;
-            gap: 10px;
-        }
-        .summary-line.total { 
-            margin-top: 15px; 
-            padding-top: 15px; 
-            border-top: 1px solid #ffcccc; 
-            font-weight: 800; 
-            font-size: 18px; 
-            color: #2d3436; 
-        }
-        .summary-line span:last-child { flex-shrink: 0; text-align: right; }
-
-        .btn-pesan { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 20px; border-radius: 20px; font-weight: 800; font-size: 18px; cursor: pointer; }
+        /* POPUP */
+        .popup { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; z-index: 2000; align-items: flex-end; }
+        .popup-content { background: #fff; width: 100%; max-width: 500px; margin: 0 auto; border-radius: 25px 25px 0 0; padding: 20px; max-height: 90vh; overflow-y: auto; }
+        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #f1f1f1; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 14px; }
+        label { font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .gps-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: #e1f5fe; color: #0288d1; border: 1px solid #b3e5fc; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; margin-bottom: 15px; font-size: 13px; }
         
-        @media (max-width: 400px) {
-            .summary-line.total { font-size: 16px; }
-            .popup-content { padding: 20px; }
-        }
+        .qty-control { display: flex; align-items: center; gap: 8px; background: #f1f1f1; padding: 4px 8px; border-radius: 25px; }
+        .qty-btn { background: none; border: none; color: var(--primary-red); font-weight: 800; font-size: 16px; cursor: pointer; }
+        
+        .payment-summary { background: #fff9f9; border-radius: 12px; padding: 12px; margin: 15px 0; border: 1px dashed #ffcccc; }
+        .summary-line { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+        .summary-line.total { border-top: 1px solid #eee; padding-top: 8px; margin-top: 8px; font-weight: 800; font-size: 16px; color: var(--primary-red); }
+        .btn-selesai { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 16px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 16px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-content">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_PcT_KT8CxOUK5xJCqiPIehvmKsQQ2__Yhg&s" alt="Lesehan Macca Logo" class="main-logo">
-        <p>Cita Rasa Khas, Lezatnya Sampai ke Hati</p>
-    </div>
+    <h1 class="main-logo-text">Lesehan Macca</h1>
+    <p>Lezat • Cepat • Bersahabat</p>
 </header>
 
-<div class="tabs-container" id="tabBar">
-    <button class="tab-link active" data-id="ayam" onclick="openTab('ayam')">🍗 Ayam</button>
-    <button class="tab-link" data-id="ikan" onclick="openTab('ikan')">🐟 Ikan</button>
-    <button class="tab-link" data-id="udang" onclick="openTab('udang')">🍤 Udang</button>
-    <button class="tab-link" data-id="nasimie" onclick="openTab('nasimie')">🍚 Nasi & Mie</button>
-    <button class="tab-link" data-id="sayur" onclick="openTab('sayur')">🥬 Sayur</button>
+<div class="tabs-container">
+    <button class="tab-link active" onclick="openTab(event, 'paket')">⭐ Paket</button>
+    <button class="tab-link" onclick="openTab(event, 'ayam')">🍗 Ayam</button>
+    <button class="tab-link" onclick="openTab(event, 'ikan')">🐟 Ikan</button>
+    <button class="tab-link" onclick="openTab(event, 'seafood')">🍤 Seafood</button>
+    <button class="tab-link" onclick="openTab(event, 'nasimie')">🍚 Nasi & Mie</button>
+    <button class="tab-link" onclick="openTab(event, 'lauk')">🥬 Sayur & Lauk</button>
 </div>
 
-<div id="swipe-area">
-    <div class="container">
-        <div id="ayam" class="menu-section active">
-            <div class="section-title">Olahan Ayam</div>
-            <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Ayam Bakar Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Bakar Macca', 14000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Macca</h4><p>Rp 14.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Macca', 14000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Ayam Goreng Tepung</h4><p>Rp 16.000</p></div><button class="add-btn" onclick="addItem('Ayam Goreng Tepung', 16000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Ayam Saos Mentega</h4><p>Rp 17.000</p></div><button class="add-btn" onclick="addItem('Ayam Saos Mentega', 17000)">+</button></div>
-            </div>
-        </div>
-        <div id="ikan" class="menu-section">
-            <div class="section-title">Olahan Ikan</div>
-            <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Bandeng Bakar</h4><p>Rp 13.000</p></div><button class="add-btn" onclick="addItem('Bandeng Bakar', 13000)">+</button></div>
-                <div class="menu-card"><div class="menu-info"><h4>Pallumara Bandeng</h4><p>Rp 20.000</p></div><button class="add-btn" onclick="addItem('Pallumara Bandeng', 20000)">+</button></div>
-            </div>
-        </div>
-        <div id="udang" class="menu-section">
-            <div class="section-title">Olahan Udang</div>
-            <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Udang Bakar</h4><p>Rp 28.000</p></div><button class="add-btn" onclick="addItem('Udang Bakar', 28000)">+</button></div>
-            </div>
-        </div>
-        <div id="nasimie" class="menu-section">
-            <div class="section-title">Nasi & Mie</div>
-            <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Nasi Goreng Biasa</h4><p>Rp 15.000</p></div><button class="add-btn" onclick="addItem('Nasi Goreng Biasa', 15000)">+</button></div>
-            </div>
-        </div>
-        <div id="sayur" class="menu-section">
-            <div class="section-title">Sayur & Lauk</div>
-            <div class="menu-grid">
-                <div class="menu-card"><div class="menu-info"><h4>Cah Kangkung</h4><p>Rp 8.000</p></div><button class="add-btn" onclick="addItem('Cah Kangkung', 8000)">+</button></div>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="container" id="menu-container"></div>
 
 <div class="cart-bar" id="cartBar">
-    <div style="display:flex; align-items:center; gap:12px;">
-        <div style="background:rgba(255,255,255,0.15); padding:8px 16px; border-radius:12px; font-weight:800;" id="itemCount">0</div>
-        <strong id="totalText" style="font-size:18px;">Rp 0</strong>
-    </div>
+    <div><span id="itemCount" style="font-weight:800; background:#333; padding:4px 10px; border-radius:8px; margin-right:8px;">0</span><strong id="totalText">Rp 0</strong></div>
     <button class="checkout-btn" onclick="openPopup()">Review Pesanan</button>
 </div>
 
 <div class="popup" id="popup">
     <div class="popup-content">
-        <div style="width: 40px; height: 5px; background: #ddd; margin: 0 auto 25px; border-radius: 10px;"></div>
-        <h3 style="margin: 0 0 25px; font-weight: 800; font-size: 24px; color: #1a1a1a;">Review Pesanan</h3>
-        
-        <div class="input-group"><label>Nama Lengkap</label><input id="nama" type="text"></div>
-        <div class="input-group"><label>Nomor WhatsApp</label><input id="telp" type="tel"></div>
-        <div class="input-group"><label>Alamat Pengiriman</label><textarea id="alamat" rows="2"></textarea></div>
-        <div class="input-group"><label>Pesan Khusus</label><input id="pesan_khusus" type="text"></div>
-        
-        <div class="input-group">
-            <label>Metode Pembayaran</label>
-            <select id="bayar" onchange="renderCart()">
-                <option value="COD">💵 Bayar di Tempat (COD)</option>
-                <option value="Transfer">🏦 Transfer Bank</option>
-            </select>
-        </div>
-
-        <div id="cartList" style="margin-top:20px;"></div>
-
+        <h3 style="margin-top:0; font-size:18px;">Detail Pengiriman</h3>
+        <input id="nama" type="text" placeholder="Nama Penerima">
+        <input id="telp" type="tel" placeholder="Nomor WhatsApp">
+        <button class="gps-btn" onclick="getLocation()"><span id="gpsStatus">📍 Klik Untuk Kirim Lokasi GPS</span></button>
+        <textarea id="alamat" rows="2" placeholder="Alamat lengkap / Patokan rumah"></textarea>
+        <select id="bayar" onchange="renderCart()">
+            <option value="COD">COD (Bayar di Tempat)</option>
+            <option value="Transfer">Transfer Bank</option>
+        </select>
+        <div id="cartList" style="max-height: 150px; overflow-y: auto;"></div>
         <div class="payment-summary">
             <div class="summary-line"><span>Subtotal</span><span id="subtotalText">Rp 0</span></div>
-            <div class="summary-line" id="ongkirLine"><span>Ongkos Kirim</span><span>Rp 5.000</span></div>
-            <div class="summary-line total"><span>Total Keseluruhan</span><span id="popupTotal" style="color:var(--primary-red);">Rp 0</span></div>
+            <div class="summary-line" id="ongkirLine"><span>Ongkir</span><span>Rp 5.000</span></div>
+            <div class="summary-line total"><span>Total Akhir</span><span id="popupTotal">Rp 0</span></div>
         </div>
-
-        <button class="btn-pesan" onclick="sendWA()">Kirim Pesanan ke WhatsApp</button>
-        <button onclick="closePopup()" style="width:100%; background:none; border:none; color:#bbb; margin-top:20px; font-weight:700; cursor:pointer;">Kembali Memilih Menu</button>
+        <button class="btn-selesai" onclick="simpanKeFirebase()">SELESAIKAN PESANAN</button>
+        <button onclick="closePopup()" style="width:100%; background:none; border:none; color:#999; margin-top:12px;">Kembali</button>
     </div>
 </div>
 
 <script>
+    const firebaseConfig = { 
+        apiKey: "AIzaSyBjEI1iiOjfrpyaZzEntRCGuiiorgxol0", 
+        databaseURL: "https://lesehan-macca-new-default-rtdb.asia-southeast1.firebasedatabase.app" 
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const menuData = {
+        paket: { title: "Paket Macca Hemat", items: [
+            { name: "Paket Ayam Bakar + Es Teh", price: 22000, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200" },
+            { name: "Paket Bandeng Bakar + Es Teh", price: 20000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
+            { name: "Paket Ayam Bakar + Sayur", price: 22000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" }
+        ]},
+        ayam: { title: "Olahan Ayam", items: [
+            { name: "Ayam Bakar Rica/Biasa", price: 14000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" },
+            { name: "Ayam Goreng Rica/Biasa", price: 14000, img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=200" },
+            { name: "Ayam Goreng Tepung", price: 16000, img: "https://images.unsplash.com/photo-1562967915-92ae0c33c0d0?w=200" },
+            { name: "Ayam Goreng Saos Mentega", price: 17000, img: "https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=200" }
+        ]},
+        ikan: { title: "Olahan Ikan", items: [
+            { name: "Ikan Bandeng Bakar", price: 13000, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200" },
+            { name: "Ikan Bandeng Goreng", price: 13000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
+            { name: "Ikan Bandeng Pallumara", price: 20000, img: "https://images.unsplash.com/photo-1534604973900-c41ab4c94f7b?w=200" },
+            { name: "Ikan Layang Bakar/Goreng", price: 15000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
+            { name: "Ikan Kakap/Katamba Bakar", price: 30000, img: "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=200" }
+        ]},
+        seafood: { title: "Olahan Cumi & Udang", items: [
+            { name: "Cumi Bakar", price: 28000, img: "https://images.unsplash.com/photo-1590594460041-99625355a244?w=200" },
+            { name: "Cumi Goreng Tepung", price: 30000, img: "https://images.unsplash.com/photo-1590594460041-99625355a244?w=200" },
+            { name: "Cumi Saos Pedas", price: 30000, img: "https://images.unsplash.com/photo-1535400255456-984241443b29?w=200" },
+            { name: "Udang Bakar", price: 28000, img: "https://images.unsplash.com/photo-1559742811-824289511f48?w=200" },
+            { name: "Udang Goreng Tepung", price: 30000, img: "https://images.unsplash.com/photo-1565689157206-0fddef7589a2?w=200" },
+            { name: "Udang Saos Asam Manis", price: 30000, img: "https://images.unsplash.com/photo-1535400255456-984241443b29?w=200" }
+        ]},
+        nasimie: { title: "Nasi & Mie Goreng", items: [
+            { name: "Nasi Goreng Biasa", price: 15000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=200" },
+            { name: "Nasi Goreng Seafood", price: 23000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=200" },
+            { name: "Mie Kering Ayam", price: 23000, img: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=200" },
+            { name: "Nasi Putih", price: 5000, img: "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=200" }
+        ]},
+        lauk: { title: "Sayur & Lauk", items: [
+            { name: "Sayur Sup / Santan", price: 7000, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200" },
+            { name: "Kangkung/Sawi/Paria Cah", price: 8000, img: "https://images.unsplash.com/photo-1546833998-877b37c2e5c6?w=200" },
+            { name: "Tahu Goreng Biasa/Tepung", price: 7000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
+            { name: "Tempe Goreng Biasa/Tepung", price: 7000, img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=200" },
+            { name: "Telur Dadar / Ceplok", price: 5000, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200" }
+        ]}
+    };
+
     let cart = [];
-    const categories = ['ayam', 'ikan', 'udang', 'nasimie', 'sayur'];
-    let currentIndex = 0;
-    const adminWA = '6285242522956';
-    const ongkirVal = 5000;
+    let gpsLink = "";
 
-    function formatRupiah(n) { return n.toLocaleString('id-ID'); }
-
-    function openTab(tabId) {
-        currentIndex = categories.indexOf(tabId);
-        document.querySelectorAll(".menu-section").forEach(s => s.classList.remove("active"));
-        document.querySelectorAll(".tab-link").forEach(t => t.classList.remove("active"));
-        document.getElementById(tabId).classList.add("active");
-        const activeBtn = document.querySelector(`[data-id="${tabId}"]`);
-        activeBtn.classList.add("active");
-        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    function initMenu() {
+        const container = document.getElementById('menu-container');
+        container.innerHTML = "";
+        for (const key in menuData) {
+            let html = `<div id="${key}" class="menu-section ${key === 'paket' ? 'active' : ''}">
+                <div class="section-title">${menuData[key].title}</div><div class="menu-grid">`;
+            menuData[key].items.forEach(item => {
+                html += `<div class="menu-card"><img src="${item.img}" class="product-img"><div class="menu-info"><h4>${item.name}</h4><p>Rp ${item.price.toLocaleString()}</p></div>
+                <button class="add-btn" onclick="addItem('${item.name}', ${item.price})">+</button></div>`;
+            });
+            container.innerHTML += html + `</div></div>`;
+        }
     }
 
-    // Swipe Navigation
-    let tsX = 0;
-    document.getElementById('swipe-area').addEventListener('touchstart', e => tsX = e.touches[0].clientX);
-    document.getElementById('swipe-area').addEventListener('touchend', e => {
-        let teX = e.changedTouches[0].clientX;
-        if (tsX - teX > 80 && currentIndex < categories.length - 1) openTab(categories[currentIndex + 1]);
-        if (teX - tsX > 80 && currentIndex > 0) openTab(categories[currentIndex - 1]);
-    });
+    function openTab(e, id) {
+        document.querySelectorAll(".menu-section, .tab-link").forEach(x => x.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        e.currentTarget.classList.add("active");
+    }
 
-    function addItem(name, price) {
-        cart.push({ name, price });
-        updateUI();
-        if(document.getElementById('popup').style.display === 'flex') renderCart();
-    }
-    function removeItem(name, price) {
-        const idx = cart.findIndex(i => i.name === name && i.price === price);
-        if (idx > -1) { cart.splice(idx, 1); updateUI(); renderCart(); }
-    }
+    function addItem(name, price) { cart.push({name, price}); updateUI(); }
+    function removeItem(name) { const i = cart.findIndex(x => x.name === name); if(i > -1) { cart.splice(i, 1); updateUI(); if(document.getElementById('popup').style.display === 'flex') renderCart(); } }
+
     function updateUI() {
-        const total = cart.reduce((s, i) => s + i.price, 0);
-        document.getElementById('cartBar').classList.toggle('active', cart.length > 0);
-        document.getElementById('totalText').innerText = `Rp ${formatRupiah(total)}`;
+        const total = cart.reduce((s, x) => s + x.price, 0);
+        const bar = document.getElementById('cartBar');
+        bar.classList.toggle('active', cart.length > 0);
+        document.getElementById('totalText').innerText = `Rp ${total.toLocaleString()}`;
         document.getElementById('itemCount').innerText = cart.length;
     }
-    function openPopup() { renderCart(); document.getElementById('popup').style.display = 'flex'; setTimeout(() => document.getElementById('popup').classList.add('active'), 10); }
-    function closePopup() { document.getElementById('popup').classList.remove('active'); setTimeout(() => document.getElementById('popup').style.display = 'none', 300); }
-    
+
+    function openPopup() { renderCart(); document.getElementById('popup').style.display = 'flex'; }
+    function closePopup() { document.getElementById('popup').style.display = 'none'; }
+
     function renderCart() {
-        const list = document.getElementById('cartList');
-        list.innerHTML = '';
-        let subtotal = 0;
-        const map = {};
-        cart.forEach(i => { map[i.name] = map[i.name] || { ...i, qty: 0 }; map[i.name].qty++; subtotal += i.price; });
-        
-        Object.values(map).forEach(item => {
-            const d = document.createElement('div');
-            d.className = 'cart-item-row';
-            d.innerHTML = `<div class="cart-item-info">
-                    <div style="font-weight:700; color:#333;">${item.name}</div>
-                    <div style="color:var(--primary-red); font-weight:800; font-size:13px;">Rp ${formatRupiah(item.price)}</div>
-                </div>
-                <div class="qty-control">
-                    <button class="qty-btn" onclick="removeItem('${item.name}', ${item.price})">−</button>
-                    <span style="font-weight:800; min-width:20px; text-align:center;">${item.qty}</span>
-                    <button class="qty-btn" onclick="addItem('${item.name}', ${item.price})">+</button>
-                </div>`;
-            list.appendChild(d);
+        const list = document.getElementById('cartList'); list.innerHTML = ''; let sub = 0;
+        const sum = {}; cart.forEach(x => { sum[x.name] = sum[x.name] || { p: x.price, q: 0 }; sum[x.name].q++; sub += x.price; });
+        for (const n in sum) {
+            list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+                <div style="font-size:13px; font-weight:600;">${n}</div>
+                <div class="qty-control"><button class="qty-btn" onclick="removeItem('${n}')">−</button><span>${sum[n].q}</span><button class="qty-btn" onclick="addItem('${n}', ${sum[n].p})">+</button></div>
+            </div>`;
+        }
+        const isCOD = document.getElementById('bayar').value === 'COD';
+        document.getElementById('subtotalText').innerText = `Rp ${sub.toLocaleString()}`;
+        document.getElementById('ongkirLine').style.display = isCOD ? 'flex' : 'none';
+        document.getElementById('popupTotal').innerText = `Rp ${(sub + (isCOD ? 5000 : 0)).toLocaleString()}`;
+    }
+
+    function getLocation() {
+        if (!navigator.geolocation) return alert("GPS tidak didukung");
+        document.getElementById('gpsStatus').innerText = "⏳ Mencari Lokasi...";
+        navigator.geolocation.getCurrentPosition(p => {
+            gpsLink = "https://www.google.com/maps?q=" + p.coords.latitude + "," + p.coords.longitude;
+            document.getElementById('gpsStatus').innerText = "✅ Lokasi Terkunci";
+        }, () => alert("Gagal ambil GPS"));
+    }
+
+    function simpanKeFirebase() {
+        const n = document.getElementById('nama').value;
+        const w = document.getElementById('telp').value;
+        const a = document.getElementById('alamat').value;
+        if(!n || !w || !a) return Swal.fire('Oops!', 'Mohon lengkapi data!', 'warning');
+
+        const sum = {}; cart.forEach(x => { sum[x.name] = (sum[x.name] || 0) + 1; });
+        let detailOrder = "";
+        for(let k in sum) detailOrder += `${k} (${sum[k]}x), `;
+
+        db.ref('orders').push({
+            customer: n,
+            whatsapp: w.replace(/\D/g, ''),
+            alamat: a,
+            gps: gpsLink,
+            pembayaran: document.getElementById('bayar').value,
+            items: detailOrder,
+            total: document.getElementById('popupTotal').innerText,
+            status: 'new',
+            timestamp: Date.now()
+        }).then(() => {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Pesanan Anda telah dikirim ke Admin Delivery.',
+                icon: 'success',
+                confirmButtonColor: '#8B1A1A'
+            }).then(() => { cart = []; updateUI(); closePopup(); });
         });
-
-        const meth = document.getElementById('bayar').value;
-        const currentOngkir = (meth === 'COD') ? ongkirVal : 0;
-        document.getElementById('ongkirLine').style.display = (meth === 'COD') ? 'flex' : 'none';
-        document.getElementById('subtotalText').innerText = `Rp ${formatRupiah(subtotal)}`;
-        document.getElementById('popupTotal').innerText = `Rp ${formatRupiah(subtotal + currentOngkir)}`;
     }
 
-    function sendWA() {
-        const nama = document.getElementById('nama').value;
-        const alamat = document.getElementById('alamat').value;
-        const telp = document.getElementById('telp').value;
-        const meth = document.getElementById('bayar').value;
-        const pesanKhusus = document.getElementById('pesan_khusus').value;
-        
-        if(!nama || !alamat || !telp) return alert("Harap isi data pengiriman dengan lengkap.");
-        
-        let sub = 0; const map = {};
-        cart.forEach(i => { map[i.name] = map[i.name] || { ...i, qty: 0 }; map[i.name].qty++; sub += i.price; });
-        const total = sub + (meth === 'COD' ? ongkirVal : 0);
-
-        let m = `*PESANAN BARU - LESEHAN MACCA*%0A%0A`;
-        m += `👤 *Pelanggan:* ${nama}%0A`;
-        m += `📞 *WhatsApp:* ${telp}%0A`;
-        m += `📍 *Alamat:* ${alamat}%0A`;
-        m += `💳 *Pembayaran:* ${meth}%0A`;
-        if(pesanKhusus.trim() !== "") m += `📝 *Pesan Khusus:* ${pesanKhusus}%0A`;
-        m += `%0A*DAFTAR MENU:*%0A`;
-        Object.values(map).forEach(i => m += `- ${i.name} (${i.qty}x)%0A`);
-        m += `%0A*TOTAL AKHIR: Rp ${formatRupiah(total)}*`;
-        window.open(`https://wa.me/${adminWA}?text=${m}`, '_blank');
-    }
+    window.onload = initMenu;
 </script>
 </body>
 </html>
