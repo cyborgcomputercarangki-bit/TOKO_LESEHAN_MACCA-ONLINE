@@ -163,7 +163,7 @@
                 { name: "Bandeng Goreng (1 Ekor)", price: 13000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
                 { name: "Bandeng Goreng Tepung (1 Ekor)", price: 16000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
                 { name: "Bandeng Pallumara (1 Ekor)", price: 20000, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=200" },
-                { name: "Layang Bakar Bakar", price: 15000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
+                { name: "Layang Bakar", price: 15000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
                 { name: "Layang Goreng", price: 15000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
                 { name: "Kakap / Katamba Bakar", price: 30000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
                 { name: "Kakap / Katamba Goreng", price: 30000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" }
@@ -354,7 +354,9 @@
         btn.innerText = "MENGIRIM PESANAN...";
 
         const sum = {}; cart.forEach(x => { sum[x.name] = (sum[x.name] || 0) + 1; });
-        let detailOrder = ""; for(let k in sum) detailOrder += `${k} (x${sum[k]})\n`;
+        let detailOrder = ""; for(let k in sum) detailOrder += `- ${k} (x${sum[k]})\n`;
+
+        const totalBayar = document.getElementById('popupTotal').innerText;
 
         const orderData = {
             customer: n, 
@@ -362,15 +364,31 @@
             alamat: a, 
             pembayaran: selectedPayment,
             items: detailOrder.trim(),
-            total: document.getElementById('popupTotal').innerText,
+            total: totalBayar,
             status: 'new', 
             timestamp: firebase.database.ServerValue.TIMESTAMP
         };
 
+        // 1. Simpan ke Firebase
         db.ref('orders').push(orderData).then(() => {
-            Swal.fire('Berhasil!', 'Pesanan Anda telah diterima Macca.', 'success').then(() => {
-                location.reload();
+            
+            // 2. Format Pesan WhatsApp (GANTI NOMOR DI BAWAH INI)
+            const nomorAdmin = "6282191077337"; // <--- GANTI JADI NOMOR WA ANDA (Format 628...)
+            const teksWA = `Halo Lesehan Macca, saya ingin memesan:\n\n${detailOrder}\n*Total: ${totalBayar}*\n*Metode: ${selectedPayment}*\n\n--- Data Pengiriman ---\nNama: ${n}\nAlamat: ${a}\nWA: ${w}\n\nMohon segera diproses ya, terima kasih!`;
+            
+            const linkWA = `https://api.whatsapp.com/send?phone=${nomorAdmin}&text=${encodeURIComponent(teksWA)}`;
+
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Pesanan tersimpan. Klik OK untuk konfirmasi via WhatsApp.',
+                icon: 'success',
+                confirmButtonText: 'Kirim ke WhatsApp'
+            }).then(() => {
+                // Membuka WhatsApp dan Refresh
+                window.location.href = linkWA;
+                setTimeout(() => { location.reload(); }, 3000);
             });
+
         }).catch(err => {
             isProcessing = false;
             btn.disabled = false;
