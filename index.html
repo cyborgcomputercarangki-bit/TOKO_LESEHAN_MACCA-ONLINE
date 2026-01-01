@@ -330,15 +330,20 @@
         btn.disabled = true;
         btn.innerText = "MENGIRIM PESANAN...";
 
-        let buktiLink = "COD";
+        // --- PERBAIKAN SINKRONISASI DI SINI ---
+        let buktiLink = ""; // Default kosong jika COD
+        
         if(selectedPayment === 'Transfer Bank' && file) {
             try {
                 const formData = new FormData();
                 formData.append('image', file);
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
                 const data = await res.json();
-                if (data.success) buktiLink = data.data.url;
-                else throw new Error(data.error.message);
+                if (data.success) {
+                    buktiLink = data.data.url;
+                } else {
+                    throw new Error(data.error.message);
+                }
             } catch (err) {
                 btn.disabled = false; btn.innerText = "SELESAIKAN PESANAN";
                 return Swal.fire('Gagal Upload!', err.message, 'error');
@@ -349,10 +354,15 @@
         let detailOrder = ""; for(let k in sum) detailOrder += `${k} (x${sum[k]})\n`;
 
         const orderData = {
-            customer: n, whatsapp: w, alamat: a, pembayaran: selectedPayment,
-            bukti_transfer: buktiLink, items: detailOrder.trim(),
+            customer: n, 
+            whatsapp: w, 
+            alamat: a, 
+            pembayaran: selectedPayment,
+            buktiTf: buktiLink, // Nama field disinkronkan menjadi buktiTf agar terbaca Admin
+            items: detailOrder.trim(),
             total: document.getElementById('popupTotal').innerText,
-            status: 'new', timestamp: firebase.database.ServerValue.TIMESTAMP
+            status: 'new', 
+            timestamp: firebase.database.ServerValue.TIMESTAMP
         };
 
         db.ref('orders').push(orderData).then(() => {
