@@ -52,8 +52,6 @@
         .pay-group { display: flex; gap: 10px; margin-bottom: 20px; }
         .pay-btn { flex: 1; padding: 14px; border: 2px solid #f1f1f1; border-radius: 15px; background: #fff; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; color: #666; }
         .pay-btn.selected { background: #fff5f5; border-color: var(--primary-red); color: var(--primary-red); }
-        .upload-area { border: 2px dashed #ddd; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; cursor: pointer; background: #fafafa; }
-        .preview-img { width: 100%; max-height: 200px; object-fit: contain; display: none; margin-top: 10px; border-radius: 10px; }
         .btn-selesai { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 16px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3); }
         .btn-selesai:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; color: #888; }
         .btn-batal-order { width: 100%; background: #f1f1f1; color: #888; border: none; padding: 14px; border-radius: 15px; font-weight: 700; cursor: pointer; }
@@ -101,18 +99,6 @@
             <button class="pay-btn" id="btn-tf" onclick="setPayment('Transfer Bank')">TRANSFER / QRIS</button>
         </div>
 
-        <div id="uploadSection" style="display:none;">
-            <label>Upload Bukti Transfer</label>
-            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                <div id="uploadPlaceholder">
-                    <span style="font-size: 30px;">📸</span>
-                    <p style="margin:5px 0 0; font-size:12px; color:#777; font-weight:600;">Klik untuk upload bukti bayar</p>
-                </div>
-                <img id="imagePreview" class="preview-img">
-                <input type="file" id="fileInput" hidden accept="image/*" onchange="handlePreview(this)">
-            </div>
-        </div>
-
         <label>Ringkasan Pesanan</label>
         <div id="cartList" style="max-height: 150px; overflow-y: auto; margin-bottom:15px; background: #fdfdfd; padding: 10px; border-radius: 12px; border: 1px solid #eee;"></div>
 
@@ -134,8 +120,6 @@
 </div>
 
 <script>
-    const IMGBB_API_KEY = "bbecd4162834e97788acca446d9f97f0"; 
-    
     const firebaseConfig = {
         apiKey: "AIzaSyBjEI1iiOjfrpyaZzEntRCGuiiorgxol0",
         databaseURL: "https://lesehan-macca-new-default-rtdb.asia-southeast1.firebasedatabase.app"
@@ -251,18 +235,6 @@
         document.getElementById('itemCount').innerText = cart.length;
     }
 
-    function handlePreview(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                document.getElementById('imagePreview').src = e.target.result;
-                document.getElementById('imagePreview').style.display = 'block';
-                document.getElementById('uploadPlaceholder').style.display = 'none';
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
     function setPayment(val) {
         const currentTotal = document.getElementById('popupTotal').innerText;
         
@@ -282,33 +254,18 @@
                         </div>
                         <p style="font-weight: 700; margin-bottom: 10px;">Atau Scan QRIS ini:</p>
                         <img src="https://i.ibb.co.com/mC8SDk1j/Whats-App-Image-2026-01-01-at-16-20-37.jpg" style="width: 100%; max-width: 220px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <p style="font-size: 11px; color: #777; margin-top: 15px;">Harap transfer sesuai total tagihan di atas.</p>
                     </div>
                 `,
-                showCancelButton: true,
-                confirmButtonText: 'Lanjut Upload Bukti',
-                cancelButtonText: 'Ganti Metode Bayar',
+                confirmButtonText: 'Oke, Saya Paham',
                 confirmButtonColor: '#8B1A1A',
-                cancelButtonColor: '#666',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika pilih lanjut
-                    selectedPayment = 'Transfer Bank';
-                    document.getElementById('btn-cod').classList.remove('selected');
-                    document.getElementById('btn-tf').classList.add('selected');
-                    document.getElementById('uploadSection').style.display = 'block';
-                } else {
-                    // Jika pilih batal/ganti, reset ke COD
-                    setPayment('COD');
-                }
             });
+            selectedPayment = 'Transfer Bank';
+            document.getElementById('btn-cod').classList.remove('selected');
+            document.getElementById('btn-tf').classList.add('selected');
         } else {
-            // Logika untuk COD
             selectedPayment = 'COD';
             document.getElementById('btn-cod').classList.add('selected');
             document.getElementById('btn-tf').classList.remove('selected');
-            document.getElementById('uploadSection').style.display = 'none';
         }
     }
 
@@ -354,7 +311,6 @@
         const n = document.getElementById('nama').value.trim();
         const w = document.getElementById('telp').value.trim();
         const a = document.getElementById('alamat').value.trim();
-        const file = document.getElementById('fileInput').files[0];
         const btn = document.getElementById('btnFinal');
 
         if(!n || !w || !a) return Swal.fire('Lengkapi Data!', 'Nama, WA, dan Alamat wajib diisi.', 'warning');
@@ -362,24 +318,6 @@
         isProcessing = true;
         btn.disabled = true;
         btn.innerText = "MENGIRIM PESANAN...";
-
-        let buktiLink = ""; 
-        if(selectedPayment === 'Transfer Bank') {
-            if(!file) {
-                isProcessing = false; btn.disabled = false; btn.innerText = "SELESAIKAN PESANAN";
-                return Swal.fire('Bukti Transfer!', 'Silakan upload bukti transfer Anda.', 'warning');
-            }
-            try {
-                const formData = new FormData();
-                formData.append('image', file);
-                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
-                const data = await res.json();
-                if (data.success) buktiLink = data.data.url;
-            } catch (err) {
-                isProcessing = false; btn.disabled = false; btn.innerText = "SELESAIKAN PESANAN";
-                return Swal.fire('Gagal Upload!', 'Periksa koneksi internet Anda.', 'error');
-            }
-        }
 
         const sum = {}; cart.forEach(x => { sum[x.name] = (sum[x.name] || 0) + 1; });
         let detailOrder = ""; for(let k in sum) detailOrder += `${k} (x${sum[k]})\n`;
@@ -389,7 +327,6 @@
             whatsapp: w, 
             alamat: a, 
             pembayaran: selectedPayment,
-            proof: buktiLink,
             items: detailOrder.trim(),
             total: document.getElementById('popupTotal').innerText,
             status: 'new', 
@@ -400,6 +337,11 @@
             Swal.fire('Berhasil!', 'Pesanan Anda telah diterima Macca.', 'success').then(() => {
                 location.reload();
             });
+        }).catch(err => {
+            isProcessing = false;
+            btn.disabled = false;
+            btn.innerText = "SELESAIKAN PESANAN";
+            Swal.fire('Gagal!', 'Terjadi kesalahan sistem.', 'error');
         });
     }
 
