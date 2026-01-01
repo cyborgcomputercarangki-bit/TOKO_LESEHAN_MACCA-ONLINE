@@ -77,8 +77,7 @@
     <button class="tab-link" onclick="openTab(event, 'lauk')">🥬 Sayur & Lauk</button>
 </div>
 
-<div class="container" id="menu-container">
-    </div>
+<div class="container" id="menu-container"></div>
 
 <div class="cart-bar" id="cartBar">
     <div>
@@ -268,7 +267,32 @@
         selectedPayment = val;
         document.getElementById('btn-cod').classList.toggle('selected', val === 'COD');
         document.getElementById('btn-tf').classList.toggle('selected', val === 'Transfer Bank');
-        document.getElementById('uploadSection').style.display = (val === 'Transfer Bank' ? 'block' : 'none');
+        
+        const uploadSec = document.getElementById('uploadSection');
+        
+        if (val === 'Transfer Bank') {
+            uploadSec.style.display = 'block';
+            // Tampilkan Popup Info Bank & QRIS
+            Swal.fire({
+                title: 'Info Pembayaran',
+                html: `
+                    <div style="text-align: center; font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee;">
+                            <strong style="color: #0056b3;">BANK BRI</strong><br>
+                            <span style="font-size: 20px; font-weight: 800; letter-spacing: 1px;">0403 0101 2546 539</span><br>
+                            <small>A/N SULKIFLI</small>
+                        </div>
+                        <p style="font-weight: 700; margin-bottom: 10px;">Atau Scan QRIS di bawah ini:</p>
+                        <img src="https://i.ibb.co.com/mC8SDk1j/Whats-App-Image-2026-01-01-at-16-20-37.jpg" style="width: 100%; max-width: 250px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <p style="font-size: 12px; color: #777; margin-top: 15px;">Silakan screenshot/simpan info ini, lalu upload bukti transfer pada kolom yang tersedia.</p>
+                    </div>
+                `,
+                confirmButtonText: 'Saya Mengerti',
+                confirmButtonColor: '#8B1A1A'
+            });
+        } else {
+            uploadSec.style.display = 'none';
+        }
     }
 
     function openPopup() {
@@ -348,7 +372,7 @@
             whatsapp: w, 
             alamat: a, 
             pembayaran: selectedPayment,
-            proof: buktiLink, // DIUBAH MENJADI proof AGAR SINKRON DENGAN ADMIN
+            proof: buktiLink,
             items: detailOrder.trim(),
             total: document.getElementById('popupTotal').innerText,
             status: 'new', 
