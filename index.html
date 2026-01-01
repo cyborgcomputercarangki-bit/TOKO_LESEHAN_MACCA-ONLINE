@@ -22,41 +22,52 @@
         .swal2-container { z-index: 9999 !important; }
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 140px; }
-        header { background-color: var(--primary-red); background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500'); background-size: cover; background-position: center; padding: 40px 20px; text-align: center; border-bottom: 5px solid #FFD700; }
+        header { background-color: var(--primary-red); background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500'); background-size: cover; background-position: center; padding: 30px 20px; text-align: center; border-bottom: 5px solid #FFD700; }
         .main-logo-text { color: white; font-size: 32px; font-weight: 800; margin: 0; letter-spacing: -1px; font-style: italic; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        header p { color: white; opacity: 0.9; margin-top: 5px; font-size: 13px; font-weight: 600; }
+        
+        /* Profile Bar */
+        .profile-bar { background: #fff; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; font-size: 13px; }
+        .user-info { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #444; }
+        .btn-edit-profile { background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; color: var(--primary-red); }
+
         .tabs-container { position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 100; padding: 12px 0; display: flex; gap: 8px; overflow-x: auto; padding-left: 15px; border-bottom: 1px solid #eee; scrollbar-width: none; }
         .tabs-container::-webkit-scrollbar { display: none; }
         .tab-link { white-space: nowrap; padding: 10px 20px; background: #fff; border: 1px solid #eee; border-radius: 50px; font-weight: 700; color: #636e72; cursor: pointer; font-size: 13px; transition: 0.3s; }
         .tab-link.active { background: var(--primary-red); color: white; border-color: transparent; box-shadow: 0 5px 12px rgba(139, 26, 26, 0.2); }
+        
         .container { max-width: 600px; margin: 0 auto; padding: 10px 15px; }
         .menu-section { display: none; }
         .menu-section.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .section-title { font-size: 16px; font-weight: 800; color: var(--primary-red); margin: 20px 0 10px; border-left: 4px solid var(--primary-red); padding-left: 10px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .section-title { font-size: 16px; font-weight: 800; color: var(--primary-red); margin: 20px 0 10px; border-left: 4px solid var(--primary-red); padding-left: 10px; }
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .menu-card { background: var(--card); border-radius: var(--radius); overflow: hidden; display: flex; align-items: center; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; transition: 0.2s; position: relative; }
+        .menu-card { background: var(--card); border-radius: var(--radius); overflow: hidden; display: flex; align-items: center; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; }
         .product-img { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; background: #f5f5f5; flex-shrink: 0; }
         .menu-info { flex: 1; padding: 0 12px; }
         .menu-info h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: #333; line-height: 1.3; }
         .menu-info p { margin: 0; font-size: 15px; color: var(--primary-red); font-weight: 800; }
-        .add-btn { background: var(--primary-grad); color: white; border: none; width: 36px; height: 36px; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(178, 6, 16, 0.2); }
-        .cart-bar { position: fixed; bottom: 20px; left: 50%; width: 92%; max-width: 500px; transform: translate(-50%, 150%); background: #1a1a1a; border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: white; z-index: 1000; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .add-btn { background: var(--primary-grad); color: white; border: none; width: 36px; height: 36px; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; }
+        
+        .cart-bar { position: fixed; bottom: 20px; left: 50%; width: 92%; max-width: 500px; transform: translate(-50%, 150%); background: #1a1a1a; border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: white; z-index: 1000; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .cart-bar.active { transform: translate(-50%, 0); }
-        .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 14px; }
+        .checkout-btn { background: var(--primary-grad); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        
         .popup { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; z-index: 2000; align-items: flex-end; backdrop-filter: blur(4px); }
-        .popup-content { background: #fff; width: 100%; max-width: 500px; margin: 0 auto; border-radius: 30px 30px 0 0; padding: 25px; max-height: 92vh; overflow-y: auto; position: relative; }
-        input, textarea { width: 100%; padding: 14px; border: 2px solid #f1f1f1; border-radius: 15px; margin-bottom: 12px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--primary-red); background: #fff; }
-        label { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 8px; display: block; letter-spacing: 0.5px; }
+        .popup-content { background: #fff; width: 100%; max-width: 500px; margin: 0 auto; border-radius: 30px 30px 0 0; padding: 25px; max-height: 92vh; overflow-y: auto; }
+        
+        input, textarea { width: 100%; padding: 14px; border: 2px solid #f1f1f1; border-radius: 15px; margin-bottom: 12px; font-family: inherit; outline: none; }
+        label { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        
         .pay-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .pay-btn { flex: 1; padding: 14px; border: 2px solid #f1f1f1; border-radius: 15px; background: #fff; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; color: #666; }
+        .pay-btn { flex: 1; padding: 14px; border: 2px solid #f1f1f1; border-radius: 15px; background: #fff; cursor: pointer; font-weight: 700; color: #666; }
         .pay-btn.selected { background: #fff5f5; border-color: var(--primary-red); color: var(--primary-red); }
-        .btn-selesai { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 16px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3); }
-        .btn-selesai:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; color: #888; }
+        
+        .btn-selesai { width: 100%; background: var(--accent-grad); color: #1d3924; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; font-size: 16px; margin-bottom: 10px; }
         .btn-batal-order { width: 100%; background: #f1f1f1; color: #888; border: none; padding: 14px; border-radius: 15px; font-weight: 700; cursor: pointer; }
+        
         .qty-control { display: flex; align-items: center; gap: 12px; background: #f1f1f1; padding: 6px 12px; border-radius: 25px; }
-        .qty-btn { background: none; border: none; color: var(--primary-red); font-weight: 800; font-size: 18px; cursor: pointer; padding: 0 5px; }
+        .qty-btn { background: none; border: none; color: var(--primary-red); font-weight: 800; font-size: 18px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -66,32 +77,38 @@
     <p>Lezat • Cepat • Bersahabat</p>
 </header>
 
+<div class="profile-bar" id="profileBar">
+    <div class="user-info">
+        <span>👋</span>
+        <span id="displayUserName">Halo, Pelanggan!</span>
+    </div>
+    <button class="btn-edit-profile" onclick="promptUserProfile()">Edit Profil</button>
+</div>
+
 <div class="tabs-container">
     <button class="tab-link active" onclick="openTab(event, 'paket')">⭐ Paket Hemat</button>
-    <button class="tab-link" onclick="openTab(event, 'ayam')">🍗 Olahan Ayam</button>
-    <button class="tab-link" onclick="openTab(event, 'ikan')">🐟 Olahan Ikan</button>
+    <button class="tab-link" onclick="openTab(event, 'ayam')">🍗 Ayam</button>
+    <button class="tab-link" onclick="openTab(event, 'ikan')">🐟 Ikan</button>
     <button class="tab-link" onclick="openTab(event, 'seafood')">🍤 Seafood</button>
-    <button class="tab-link" onclick="openTab(event, 'nasimie')">🍚 Nasi & Mie</button>
-    <button class="tab-link" onclick="openTab(event, 'lauk')">🥬 Sayur & Lauk</button>
+    <button class="tab-link" onclick="openTab(event, 'nasimie')">🍚 Nasi/Mie</button>
+    <button class="tab-link" onclick="openTab(event, 'lauk')">🥬 Sayur</button>
 </div>
 
 <div class="container" id="menu-container"></div>
 
 <div class="cart-bar" id="cartBar">
     <div>
-        <span id="itemCount" style="font-weight:800; background:#333; padding:4px 10px; border-radius:8px; margin-right:8px; border: 1px solid #444;">0</span>
-        <strong id="totalText" style="font-size: 16px;">Rp 0</strong>
+        <span id="itemCount" style="font-weight:800; background:#333; padding:4px 10px; border-radius:8px; margin-right:8px;">0</span>
+        <strong id="totalText">Rp 0</strong>
     </div>
-    <button class="checkout-btn" onclick="openPopup()">Review Pesanan</button>
+    <button class="checkout-btn" onclick="openPopup()">Pesan Sekarang</button>
 </div>
 
 <div class="popup" id="popup">
     <div class="popup-content">
-        <h3 style="margin-top:0; font-size:20px; color:var(--primary-red); font-weight:800;">Detail Pengiriman</h3>
+        <h3 style="margin-top:0; font-size:20px; color:var(--primary-red); font-weight:800;">Pesanan ini mau dikirim kemana?</h3>
         
-        <input id="nama" type="text" placeholder="Nama Penerima">
-        <input id="telp" type="tel" placeholder="Nomor WhatsApp">
-        <textarea id="alamat" rows="2" placeholder="Alamat Lengkap Pengiriman (No. Rumah/Patokan)"></textarea>
+        <textarea id="alamat" rows="3" placeholder="Contoh: Jl. Poros No. 12, Samping Masjid (Pagar Merah)"></textarea>
 
         <label>Metode Pembayaran</label>
         <div class="pay-group">
@@ -114,7 +131,7 @@
             </div>
         </div>
 
-        <button id="btnFinal" class="btn-selesai" onclick="prosesPesanan()">SELESAIKAN PESANAN</button>
+        <button id="btnFinal" class="btn-selesai" onclick="prosesPesanan()">KIRIM PESANAN</button>
         <button class="btn-batal-order" onclick="closePopup()">KEMBALI KE MENU</button>
     </div>
 </div>
@@ -128,64 +145,82 @@
     const db = firebase.database();
 
     const menuData = {
-        paket: {
-            title: "Paket Macca Hemat",
-            items: [
-                { name: "P.H Ayam Bakar + Es Teh", price: 22000, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200" },
-                { name: "P.H Bandeng Bakar + Es Teh", price: 20000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
-                { name: "P.H Lele Goreng + Es Teh", price: 18000, img: "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?w=200" }
-            ]
-        },
-        ayam: {
-            title: "Olahan Ayam",
-            items: [
-                { name: "Ayam Bakar Rica/Biasa", price: 14000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" },
-                { name: "Ayam Goreng Krispi", price: 13000, img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=200" }
-            ]
-        },
-        ikan: {
-            title: "Olahan Ikan",
-            items: [
-                { name: "Bandeng Bakar Jumbo", price: 25000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
-                { name: "Lele Bakar Rica", price: 12000, img: "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?w=200" }
-            ]
-        },
-        seafood: {
-            title: "Menu Seafood",
-            items: [
-                { name: "Udang Saos Padang", price: 35000, img: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200" },
-                { name: "Cumi Goreng Tepung", price: 30000, img: "https://images.unsplash.com/photo-1590594460041-996453cf1375?w=200" }
-            ]
-        },
-        nasimie: {
-            title: "Nasi & Mie",
-            items: [
-                { name: "Nasi Goreng Spesial", price: 15000, img: "https://images.unsplash.com/photo-1512058560566-42724afbc2db?w=200" },
-                { name: "Mie Goreng Jawa", price: 15000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" }
-            ]
-        },
-        lauk: {
-            title: "Sayur & Lauk",
-            items: [
-                { name: "Cah Kangkung", price: 10000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
-                { name: "Tahu Tempe Goreng", price: 5000, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200" }
-            ]
-        }
+        paket: { title: "Paket Macca Hemat", items: [
+            { name: "P.H Ayam Bakar + Es Teh", price: 22000, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=200" },
+            { name: "P.H Bandeng Bakar + Es Teh", price: 20000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" },
+            { name: "P.H Lele Goreng + Es Teh", price: 18000, img: "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?w=200" }
+        ]},
+        ayam: { title: "Olahan Ayam", items: [
+            { name: "Ayam Bakar Rica/Biasa", price: 14000, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" },
+            { name: "Ayam Goreng Krispi", price: 13000, img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=200" }
+        ]},
+        ikan: { title: "Olahan Ikan", items: [
+            { name: "Bandeng Bakar Jumbo", price: 25000, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=200" },
+            { name: "Lele Bakar Rica", price: 12000, img: "https://images.unsplash.com/photo-1599481238640-4c1288750d7a?w=200" }
+        ]},
+        seafood: { title: "Menu Seafood", items: [
+            { name: "Udang Saos Padang", price: 35000, img: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200" },
+            { name: "Cumi Goreng Tepung", price: 30000, img: "https://images.unsplash.com/photo-1590594460041-996453cf1375?w=200" }
+        ]},
+        nasimie: { title: "Nasi & Mie", items: [
+            { name: "Nasi Goreng Spesial", price: 15000, img: "https://images.unsplash.com/photo-1512058560566-42724afbc2db?w=200" },
+            { name: "Mie Goreng Jawa", price: 15000, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200" }
+        ]},
+        lauk: { title: "Sayur & Lauk", items: [
+            { name: "Cah Kangkung", price: 10000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
+            { name: "Tahu Tempe Goreng", price: 5000, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200" }
+        ]}
     };
 
     let cart = [];
     let selectedPayment = "COD";
     let isProcessing = false;
 
+    // LOGIN & PROFILE SYSTEM
+    function checkProfile() {
+        const savedUser = JSON.parse(localStorage.getItem('macca_user'));
+        if (savedUser) {
+            document.getElementById('displayUserName').innerText = `Halo, ${savedUser.nama}!`;
+            return true;
+        }
+        return false;
+    }
+
+    function promptUserProfile() {
+        const savedUser = JSON.parse(localStorage.getItem('macca_user')) || { nama: '', telp: '' };
+        Swal.fire({
+            title: 'Profil Pelanggan',
+            html: `
+                <input id="swal-nama" class="swal2-input" placeholder="Nama Anda" value="${savedUser.nama}">
+                <input id="swal-telp" class="swal2-input" placeholder="No WhatsApp" value="${savedUser.telp}">
+            `,
+            confirmButtonText: 'Simpan Profil',
+            confirmButtonColor: '#8B1A1A',
+            preConfirm: () => {
+                const nama = document.getElementById('swal-nama').value;
+                const telp = document.getElementById('swal-telp').value;
+                if (!nama || !telp) {
+                    Swal.showValidationMessage('Nama dan WA wajib diisi!');
+                }
+                return { nama, telp };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.setItem('macca_user', JSON.stringify(result.value));
+                checkProfile();
+                Swal.fire('Tersimpan!', 'Profil Anda berhasil diperbarui.', 'success');
+            }
+        });
+    }
+
     function initMenu() {
+        checkProfile();
         const container = document.getElementById('menu-container');
         container.innerHTML = "";
         for (const key in menuData) {
             let html = `
                 <div id="${key}" class="menu-section ${key === 'paket' ? 'active' : ''}">
-                    <div class="section-title">
-                        <span>${menuData[key].title}</span>
-                    </div>
+                    <div class="section-title"><span>${menuData[key].title}</span></div>
                     <div class="menu-grid">
             `;
             menuData[key].items.forEach(item => {
@@ -237,26 +272,17 @@
 
     function setPayment(val) {
         const currentTotal = document.getElementById('popupTotal').innerText;
-        
         if (val === 'Transfer Bank') {
             Swal.fire({
                 title: 'Info Pembayaran',
                 html: `
-                    <div style="text-align: center; font-family: 'Plus Jakarta Sans', sans-serif;">
-                        <div style="background: #FFF5F5; padding: 10px; border-radius: 10px; border: 1px solid #FFD700; margin-bottom: 15px;">
-                            <p style="margin:0; font-size:12px; color:#666;">Total Tagihan Anda:</p>
-                            <h2 style="margin:5px 0; color:#8B1A1A; font-weight:800;">${currentTotal}</h2>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee;">
-                            <strong style="color: #0056b3;">BANK BRI</strong><br>
-                            <span style="font-size: 20px; font-weight: 800; letter-spacing: 1px;">0403 0101 2546 539</span><br>
-                            <small>A/N SULKIFLI</small>
-                        </div>
-                        <p style="font-weight: 700; margin-bottom: 10px;">Atau Scan QRIS ini:</p>
-                        <img src="https://i.ibb.co.com/mC8SDk1j/Whats-App-Image-2026-01-01-at-16-20-37.jpg" style="width: 100%; max-width: 220px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <div style="text-align: center;">
+                        <h2 style="color:#8B1A1A;">${currentTotal}</h2>
+                        <p><strong>BANK BRI</strong><br>0403 0101 2546 539<br>A/N SULKIFLI</p>
+                        <img src="https://i.ibb.co.com/mC8SDk1j/Whats-App-Image-2026-01-01-at-16-20-37.jpg" style="width: 200px; border-radius: 10px;">
                     </div>
                 `,
-                confirmButtonText: 'Oke, Saya Paham',
+                confirmButtonText: 'Oke',
                 confirmButtonColor: '#8B1A1A',
             });
             selectedPayment = 'Transfer Bank';
@@ -270,6 +296,9 @@
     }
 
     function openPopup() {
+        if (!checkProfile()) {
+            return promptUserProfile();
+        }
         if(cart.length === 0) return;
         renderCart();
         document.getElementById('popup').style.display = 'flex';
@@ -296,7 +325,7 @@
                     <div style="font-size:13px; font-weight:600; flex:1;">${name}</div>
                     <div class="qty-control">
                         <button class="qty-btn" onclick="removeItem('${name}')">−</button>
-                        <span style="font-weight:700; font-size:14px; min-width:20px; text-align:center;">${summary[name].qty}</span>
+                        <span style="font-weight:700;">${summary[name].qty}</span>
                         <button class="qty-btn" onclick="addItem('${name}', ${summary[name].price})">+</button>
                     </div>
                 </div>
@@ -308,23 +337,23 @@
 
     async function prosesPesanan() {
         if (isProcessing) return;
-        const n = document.getElementById('nama').value.trim();
-        const w = document.getElementById('telp').value.trim();
+        
+        const user = JSON.parse(localStorage.getItem('macca_user'));
         const a = document.getElementById('alamat').value.trim();
         const btn = document.getElementById('btnFinal');
 
-        if(!n || !w || !a) return Swal.fire('Lengkapi Data!', 'Nama, WA, dan Alamat wajib diisi.', 'warning');
+        if(!a) return Swal.fire('Alamat Kosong!', 'Mohon isi alamat pengiriman.', 'warning');
         
         isProcessing = true;
         btn.disabled = true;
-        btn.innerText = "MENGIRIM PESANAN...";
+        btn.innerText = "MENGIRIM...";
 
         const sum = {}; cart.forEach(x => { sum[x.name] = (sum[x.name] || 0) + 1; });
         let detailOrder = ""; for(let k in sum) detailOrder += `${k} (x${sum[k]})\n`;
 
         const orderData = {
-            customer: n, 
-            whatsapp: w, 
+            customer: user.nama, 
+            whatsapp: user.telp, 
             alamat: a, 
             pembayaran: selectedPayment,
             items: detailOrder.trim(),
@@ -334,14 +363,13 @@
         };
 
         db.ref('orders').push(orderData).then(() => {
-            Swal.fire('Berhasil!', 'Pesanan Anda telah diterima Macca.', 'success').then(() => {
+            Swal.fire('Berhasil!', 'Pesanan sedang diproses.', 'success').then(() => {
                 location.reload();
             });
-        }).catch(err => {
+        }).catch(() => {
             isProcessing = false;
             btn.disabled = false;
-            btn.innerText = "SELESAIKAN PESANAN";
-            Swal.fire('Gagal!', 'Terjadi kesalahan sistem.', 'error');
+            btn.innerText = "KIRIM PESANAN";
         });
     }
 
